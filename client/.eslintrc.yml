@@ -1,9 +1,0 @@
-extends:
-  - react-app
-  - react-app/jest
-  - mantine
-parserOptions:
-  tsconfigRootDir: __dirname
-  project:
-    - tsconfig.json
-  sourceType: "module"
