@@ -1,0 +1,42 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateUserInput {
+  email: String!
+  password: String!
+}
+
+input DeleteUserInput {
+  userId: String!
+}
+
+type Donation {
+  amount: Float!
+  donationId: String!
+  sentBy: String!
+}
+
+type Mutation {
+  createUser(createUserData: CreateUserInput!): User!
+  deleteUser(deleteUserData: DeleteUserInput!): User!
+  updateUser(updateUserData: UpdateUserInput!): User!
+}
+
+type Query {
+  donation(donationId: String!): Donation
+  user(userId: String!): User
+  users(userIds: [String!]!): [User]!
+}
+
+input UpdateUserInput {
+  tokens: Float!
+  userId: String!
+}
+
+type User {
+  email: String!
+  password: String
+  tokens: Float!
+  userId: String!
+}
