@@ -6,13 +6,12 @@ import {
 import { NotificationsProvider } from '@mantine/notifications';
 import { SpotlightAction, SpotlightProvider } from '@mantine/spotlight';
 import React, { useState } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { Route, Routes } from 'react-router-dom';
 import { AccessPoint, Book, Home, Search } from 'tabler-icons-react';
 
 import Compose from './components/Compose';
 import { HomePage } from './pages/HomePage';
-
-// const queryClient = new QueryClient();
 
 const actions: SpotlightAction[] = [
   {
@@ -34,6 +33,8 @@ const actions: SpotlightAction[] = [
     icon: <Book size={18} />,
   },
 ];
+
+const queryClient = new QueryClient({});
 
 function App() {
   const [colorScheme, setColorScheme] = useState<ColorScheme>('dark');
@@ -67,6 +68,13 @@ function App() {
             searchPlaceholder: 'Search...',
             shortcut: ['mod + k', '/'],
             nothingFoundMessage: 'Nothing found...',
+          },
+        },
+        {
+          component: QueryClientProvider,
+          options: {
+            client: queryClient,
+            contextSharing: true,
           },
         },
         {

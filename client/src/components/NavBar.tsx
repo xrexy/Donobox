@@ -2,6 +2,7 @@ import {
   ActionIcon,
   Avatar,
   Badge,
+  Button,
   Code,
   createStyles,
   Group,
@@ -13,7 +14,7 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { useSpotlight } from '@mantine/spotlight';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Bulb,
   Checkbox,
@@ -22,13 +23,14 @@ import {
   Search,
   User,
 } from 'tabler-icons-react';
+import { useFetchUser } from '../utils/config/hooks/user/user.hooks';
+import { LoginModal } from './auth/LoginModal';
+import { RegisterModal } from './auth/RegisterModal';
 
 import { ThemeToggler } from './ThemeToggler';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
-    paddingTop: 0,
-
     display: 'flex',
     justifyContent: 'space-between',
   },
@@ -45,6 +47,15 @@ const useStyles = createStyles((theme) => ({
           ? theme.colors.dark[8]
           : theme.colors.gray[0],
     },
+  },
+
+  userControl: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    flexWrap: 'wrap',
+    width: '100%',
+    padding: theme.spacing.md,
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
   },
 
   section: {
@@ -162,6 +173,18 @@ const useStyles = createStyles((theme) => ({
     }`,
     paddingTop: theme.spacing.md,
   },
+
+  control: {
+    '@media (max-width: 520px)': {
+      height: 42,
+      fontSize: theme.fontSizes.md,
+
+      '&:not(:first-of-type)': {
+        marginTop: theme.spacing.md,
+        marginLeft: 0,
+      },
+    },
+  },
 }));
 
 const links = [
@@ -194,6 +217,10 @@ export function NavBar({ user }: Props) {
   const { classes } = useStyles();
   const spotlight = useSpotlight();
   const theme = useMantineTheme();
+  const { data, isSuccess } = useFetchUser(localStorage.getItem('token'));
+
+  const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
+  const [registerModalIsOpen, setRegisterModalIsOpen] = useState(false);
 
   const mainLinks = links.map((link) => (
     <UnstyledButton key={link.label} className={classes.mainLink}>
@@ -222,26 +249,72 @@ export function NavBar({ user }: Props) {
   ));
 
   return (
-    <Navbar width={{ sm: 300 }} p="md" className={classes.navbar}>
+    <Navbar
+      width={{ sm: 300 }}
+      pl="md"
+      pr="md"
+      pb="md"
+      className={classes.navbar}
+    >
       <div>
         <Navbar.Section className={classes.section}>
-          <UnstyledButton className={classes.user}>
-            <Group>
-              <Avatar src={user.image} radius="xl" />
+          {isSuccess && data ? (
+            <UnstyledButton className={classes.user}>
+              <Group>
+                <Avatar src={user.image} radius="xl" />
 
-              <div style={{ flex: 1 }}>
-                <Text size="sm" weight={500}>
-                  {user.name}
-                </Text>
+                <div style={{ flex: 1 }}>
+                  <Text size="sm" weight={500}>
+                    {user.name}
+                  </Text>
 
-                <Text color={theme.colors[theme.primaryColor][8]} size="xs">
-                  {`${user.tokens} tokens`}
-                </Text>
-              </div>
+                  <Text color={theme.colors[theme.primaryColor][8]} size="xs">
+                    {`${user.tokens} tokens`}
+                  </Text>
+                </div>
 
-              <ChevronRight size={14} />
+                <ChevronRight size={14} />
+              </Group>
+            </UnstyledButton>
+          ) : (
+            <Group className={classes.userControl}>
+              <LoginModal
+                modalProps={{
+                  opened: loginModalIsOpen,
+                  onClose: () => setLoginModalIsOpen(false),
+                }}
+                dispatchers={{
+                  toEnable: setRegisterModalIsOpen,
+                  toDisable: setLoginModalIsOpen,
+                }}
+              />
+              <Button
+                className={classes.control}
+                size="md"
+                onClick={() => setLoginModalIsOpen(true)}
+              >
+                Login
+              </Button>
+
+              <RegisterModal
+                modalProps={{
+                  opened: registerModalIsOpen,
+                  onClose: () => setRegisterModalIsOpen(false),
+                }}
+                dispatchers={{
+                  toEnable: setLoginModalIsOpen,
+                  toDisable: setRegisterModalIsOpen,
+                }}
+              />
+              <Button
+                className={classes.control}
+                size="md"
+                onClick={() => setRegisterModalIsOpen(true)}
+              >
+                Register
+              </Button>
             </Group>
-          </UnstyledButton>
+          )}
         </Navbar.Section>
 
         <TextInput
@@ -268,13 +341,27 @@ export function NavBar({ user }: Props) {
             <Text size="xs" weight={500} color="dimmed">
               My charities
             </Text>
-            <Tooltip label="Create collection" withArrow position="right">
+            <Tooltip label="New fundraiser" withArrow position="right">
               <ActionIcon variant="default" size={18}>
                 <Plus size={12} />
               </ActionIcon>
             </Tooltip>
           </Group>
-          <div className={classes.collections}>{collectionLinks}</div>
+          <div className={classes.collections}>
+            {isSuccess && data ? (
+              { collectionLinks }
+            ) : (
+              <a
+                href="/"
+                onClick={(event) => event.preventDefault()}
+                key="no__user"
+                className={classes.collectionLink}
+              >
+                <span style={{ marginRight: 9, fontSize: 16 }}>😅</span> Please
+                login to continue
+              </a>
+            )}
+          </div>
         </Navbar.Section>
       </div>
       <Navbar.Section className={classes.footer}>
