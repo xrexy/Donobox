@@ -7,9 +7,12 @@ import { NotificationsProvider } from '@mantine/notifications';
 import { SpotlightAction, SpotlightProvider } from '@mantine/spotlight';
 import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Search, Home, AccessPoint, Book } from 'tabler-icons-react';
+import { AccessPoint, Book, Home, Search } from 'tabler-icons-react';
 
+import Compose from './components/Compose';
 import { HomePage } from './pages/HomePage';
+
+// const queryClient = new QueryClient();
 
 const actions: SpotlightAction[] = [
   {
@@ -38,26 +41,67 @@ function App() {
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
   return (
-    <ColorSchemeProvider
-      colorScheme={colorScheme}
-      toggleColorScheme={toggleColorScheme}
+    <Compose
+      components={[
+        {
+          component: ColorSchemeProvider,
+          options: {
+            colorScheme,
+            toggleColorScheme,
+          },
+        },
+        {
+          component: MantineProvider,
+          options: {
+            theme: {
+              colorScheme,
+              primaryColor: 'red',
+            },
+          },
+        },
+        {
+          component: SpotlightProvider,
+          options: {
+            actions,
+            searchIcon: <Search size={18} />,
+            searchPlaceholder: 'Search...',
+            shortcut: ['mod + k', '/'],
+            nothingFoundMessage: 'Nothing found...',
+          },
+        },
+        {
+          component: NotificationsProvider,
+          options: {
+            limit: 5,
+          },
+        },
+      ]}
     >
-      <MantineProvider theme={{ colorScheme, primaryColor: 'red' }}>
-        <SpotlightProvider
-          actions={actions}
-          searchIcon={<Search size={18} />}
-          searchPlaceholder="Search..."
-          shortcut={['mod + k', '/']}
-          nothingFoundMessage="Nothing found..."
-        >
-          <NotificationsProvider limit={5}>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-            </Routes>
-          </NotificationsProvider>
-        </SpotlightProvider>
-      </MantineProvider>
-    </ColorSchemeProvider>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+    </Compose>
+
+    // <ColorSchemeProvider
+    //   colorScheme={colorScheme}
+    //   toggleColorScheme={toggleColorScheme}
+    // >
+    //   <MantineProvider theme={{ colorScheme, primaryColor: 'red' }}>
+    //     <SpotlightProvider
+    //       actions={actions}
+    //       searchIcon={<Search size={18} />}
+    //       searchPlaceholder="Search..."
+    //       shortcut={['mod + k', '/']}
+    //       nothingFoundMessage="Nothing found..."
+    //     >
+    //       <NotificationsProvider limit={5}>
+    //         <Routes>
+    //           <Route path="/" element={<HomePage />} />
+    //         </Routes>
+    //       </NotificationsProvider>
+    //     </SpotlightProvider>
+    //   </MantineProvider>
+    // </ColorSchemeProvider>
   );
 }
 
