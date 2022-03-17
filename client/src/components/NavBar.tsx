@@ -23,10 +23,9 @@ import {
   Search,
   User,
 } from 'tabler-icons-react';
-import { useFetchUser } from '../utils/config/hooks/user/user.hooks';
+
 import { LoginModal } from './modals/LoginModal';
 import { RegisterModal } from './modals/RegisterModal';
-
 import { ThemeToggler } from './ThemeToggler';
 
 const useStyles = createStyles((theme) => ({
@@ -193,7 +192,7 @@ const links = [
   { icon: User, label: 'Contacts' },
 ];
 
-const collections = [
+const collectionsList = [
   { emoji: '👍', label: 'Sales' },
   { emoji: '🚚', label: 'Deliveries' },
   { emoji: '💸', label: 'Discounts' },
@@ -217,7 +216,9 @@ export function NavBar({ user }: Props) {
   const { classes } = useStyles();
   const spotlight = useSpotlight();
   const theme = useMantineTheme();
-  const { data, isSuccess } = useFetchUser(localStorage.getItem('token'));
+
+  const actualUser = 1;
+  // const { user: actualUser } = useContext(AppContext);
 
   const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
   const [registerModalIsOpen, setRegisterModalIsOpen] = useState(false);
@@ -236,17 +237,20 @@ export function NavBar({ user }: Props) {
     </UnstyledButton>
   ));
 
-  const collectionLinks = collections.map((collection) => (
-    <a
-      href="/"
-      onClick={(event) => event.preventDefault()}
-      key={collection.label}
-      className={classes.collectionLink}
-    >
-      <span style={{ marginRight: 9, fontSize: 16 }}>{collection.emoji}</span>{' '}
-      {collection.label}
-    </a>
-  ));
+  // const collectionLinks = collectionsList.map((collection) => {
+  //   console.log(collection);
+  //   return (
+  //     <a
+  //       href="/"
+  //       onClick={(event) => event.preventDefault()}
+  //       key={collection.label}
+  //       className={classes.collectionLink}
+  //     >
+  //       <span style={{ marginRight: 9, fontSize: 16 }}>{collection.emoji}</span>{' '}
+  //       {collection.label}
+  //     </a>
+  //   );
+  // });
 
   return (
     <Navbar
@@ -258,7 +262,7 @@ export function NavBar({ user }: Props) {
     >
       <div>
         <Navbar.Section className={classes.section}>
-          {isSuccess && data ? (
+          {actualUser ? (
             <UnstyledButton className={classes.user}>
               <Group>
                 <Avatar src={user.image} radius="xl" />
@@ -348,8 +352,22 @@ export function NavBar({ user }: Props) {
             </Tooltip>
           </Group>
           <div className={classes.collections}>
-            {isSuccess && data ? (
-              { collectionLinks }
+            {actualUser ? (
+              <>
+                {collectionsList.map((collection) => (
+                  <a
+                    href="/"
+                    onClick={(event) => event.preventDefault()}
+                    key={collection.label}
+                    className={classes.collectionLink}
+                  >
+                    <span style={{ marginRight: 9, fontSize: 16 }}>
+                      {collection.emoji}
+                    </span>{' '}
+                    {collection.label}
+                  </a>
+                ))}
+              </>
             ) : (
               <a
                 href="/"

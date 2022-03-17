@@ -5,13 +5,14 @@ import {
 } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { SpotlightAction, SpotlightProvider } from '@mantine/spotlight';
-import React, { useState } from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AccessPoint, Book, Home, Search } from 'tabler-icons-react';
 
 import Compose from './components/Compose';
 import { HomePage } from './pages/HomePage';
+import { AppContext } from './utils/AppContext';
+import { useFetchUser } from './utils/config/hooks/user/user.hooks';
 
 const actions: SpotlightAction[] = [
   {
@@ -34,12 +35,21 @@ const actions: SpotlightAction[] = [
   },
 ];
 
-const queryClient = new QueryClient({});
-
 function App() {
   const [colorScheme, setColorScheme] = useState<ColorScheme>('dark');
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+
+  const [_user, setUser] = useState<User>();
+  const { data: user } = useFetchUser();
+
+  const updateUser = () => setUser(user);
+
+  useEffect(() => {
+    if (!user) return;
+    updateUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   return (
     <Compose
@@ -71,16 +81,15 @@ function App() {
           },
         },
         {
-          component: QueryClientProvider,
-          options: {
-            client: queryClient,
-            contextSharing: true,
-          },
-        },
-        {
           component: NotificationsProvider,
           options: {
             limit: 5,
+          },
+        },
+        {
+          component: AppContext.Provider,
+          options: {
+            value: { user: _user, updateUser },
           },
         },
       ]}
@@ -89,27 +98,6 @@ function App() {
         <Route path="/" element={<HomePage />} />
       </Routes>
     </Compose>
-
-    // <ColorSchemeProvider
-    //   colorScheme={colorScheme}
-    //   toggleColorScheme={toggleColorScheme}
-    // >
-    //   <MantineProvider theme={{ colorScheme, primaryColor: 'red' }}>
-    //     <SpotlightProvider
-    //       actions={actions}
-    //       searchIcon={<Search size={18} />}
-    //       searchPlaceholder="Search..."
-    //       shortcut={['mod + k', '/']}
-    //       nothingFoundMessage="Nothing found..."
-    //     >
-    //       <NotificationsProvider limit={5}>
-    //         <Routes>
-    //           <Route path="/" element={<HomePage />} />
-    //         </Routes>
-    //       </NotificationsProvider>
-    //     </SpotlightProvider>
-    //   </MantineProvider>
-    // </ColorSchemeProvider>
   );
 }
 

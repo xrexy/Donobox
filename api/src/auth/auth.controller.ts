@@ -18,8 +18,12 @@ export class AuthController {
 
   @UseGuards(GqlAuthGuard)
   @Get('status')
-  status(@CurrentUser() user: User) {
-    return user;
+  status(@CurrentUser() user: User): {
+    email: string;
+    tokens: number;
+    userId: string;
+  } {
+    return { email: user.email, tokens: user.tokens, userId: user.userId };
   }
 
   @Post('register')
