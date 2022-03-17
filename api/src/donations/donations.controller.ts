@@ -13,7 +13,6 @@ export class DonationsController {
   @UseGuards(GqlAuthGuard)
   @Post('create')
   create(@CurrentUser() user: User, @Body() data: CreateDonationInput) {
-    console.log(data);
     return this.service.createDonation(user, data);
   }
 }

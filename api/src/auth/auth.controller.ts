@@ -18,12 +18,10 @@ export class AuthController {
 
   @UseGuards(GqlAuthGuard)
   @Get('status')
-  status(@CurrentUser() user: User): {
-    email: string;
-    tokens: number;
-    userId: string;
-  } {
-    return { email: user.email, tokens: user.tokens, userId: user.userId };
+  status(@CurrentUser() user: User) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { __v, password, _id, ...others } = JSON.parse(JSON.stringify(user));
+    return others;
   }
 
   @Post('register')

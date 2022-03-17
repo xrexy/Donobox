@@ -16,7 +16,10 @@ export function ThemeToggler() {
     <Group position="center" my="xl">
       <SegmentedControl
         value={colorScheme}
-        onChange={(val: ColorScheme) => toggleColorScheme(val)}
+        onChange={(val: ColorScheme) => {
+          toggleColorScheme(val);
+          localStorage.setItem('theme', val);
+        }}
         data={[
           {
             value: 'light',

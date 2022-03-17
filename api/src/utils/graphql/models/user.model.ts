@@ -19,6 +19,10 @@ export class User {
   @Field({ defaultValue: 0.0 })
   @Prop()
   tokens: number;
+
+  @Field()
+  @Prop({ nullable: true })
+  imageURI?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

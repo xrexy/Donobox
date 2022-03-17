@@ -12,7 +12,7 @@ import { AccessPoint, Book, Home, Search } from 'tabler-icons-react';
 import Compose from './components/Compose';
 import { HomePage } from './pages/HomePage';
 import { AppContext } from './utils/AppContext';
-import { useFetchUser } from './utils/config/hooks/user/user.hooks';
+import { useFetchUser } from './utils/hooks/user/user.hooks';
 
 const actions: SpotlightAction[] = [
   {
@@ -35,21 +35,32 @@ const actions: SpotlightAction[] = [
   },
 ];
 
+const defaultTheme: ColorScheme = 'dark';
+
 function App() {
-  const [colorScheme, setColorScheme] = useState<ColorScheme>('dark');
+  const [colorScheme, setColorScheme] = useState<ColorScheme>(
+    (localStorage.getItem('theme') as ColorScheme) || defaultTheme
+  );
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
   const [_user, setUser] = useState<User>();
-  const { data: user } = useFetchUser();
+  const { data } = useFetchUser();
 
-  const updateUser = () => setUser(user);
+  const updateUser = () => setUser(data?.data);
 
   useEffect(() => {
-    if (!user) return;
+    if (!localStorage.getItem('theme')) {
+      localStorage.setItem('theme', defaultTheme);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!data?.data) return;
+
     updateUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [data?.data]);
 
   return (
     <Compose

@@ -36,6 +36,7 @@ input UpdateUserInput {
 
 type User {
   email: String!
+  imageURI: String!
   password: String
   tokens: Float!
   userId: String!
