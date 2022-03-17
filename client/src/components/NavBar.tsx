@@ -1,6 +1,5 @@
 import {
   ActionIcon,
-  Avatar,
   Badge,
   Button,
   Code,
@@ -14,7 +13,7 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { useSpotlight } from '@mantine/spotlight';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Bulb,
   Checkbox,
@@ -24,6 +23,7 @@ import {
   User,
 } from 'tabler-icons-react';
 
+import { AppContext } from '../utils/AppContext';
 import { LoginModal } from './modals/LoginModal';
 import { RegisterModal } from './modals/RegisterModal';
 import { ThemeToggler } from './ThemeToggler';
@@ -204,24 +204,15 @@ const collectionsList = [
   { emoji: '💁‍♀️', label: 'Customers' },
 ];
 
-interface Props {
-  user: {
-    image: string;
-    name: string;
-    tokens: number;
-  };
-}
-
-export function NavBar({ user }: Props) {
+export function NavBar() {
   const { classes } = useStyles();
   const spotlight = useSpotlight();
   const theme = useMantineTheme();
 
-  const actualUser = 1;
-  // const { user: actualUser } = useContext(AppContext);
-
   const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
   const [registerModalIsOpen, setRegisterModalIsOpen] = useState(false);
+
+  const { user } = useContext(AppContext);
 
   const mainLinks = links.map((link) => (
     <UnstyledButton key={link.label} className={classes.mainLink}>
@@ -237,21 +228,6 @@ export function NavBar({ user }: Props) {
     </UnstyledButton>
   ));
 
-  // const collectionLinks = collectionsList.map((collection) => {
-  //   console.log(collection);
-  //   return (
-  //     <a
-  //       href="/"
-  //       onClick={(event) => event.preventDefault()}
-  //       key={collection.label}
-  //       className={classes.collectionLink}
-  //     >
-  //       <span style={{ marginRight: 9, fontSize: 16 }}>{collection.emoji}</span>{' '}
-  //       {collection.label}
-  //     </a>
-  //   );
-  // });
-
   return (
     <Navbar
       width={{ sm: 300 }}
@@ -262,18 +238,16 @@ export function NavBar({ user }: Props) {
     >
       <div>
         <Navbar.Section className={classes.section}>
-          {actualUser ? (
+          {user ? (
             <UnstyledButton className={classes.user}>
               <Group>
-                <Avatar src={user.image} radius="xl" />
-
                 <div style={{ flex: 1 }}>
                   <Text size="sm" weight={500}>
-                    {user.name}
+                    {user.email}
                   </Text>
 
                   <Text color={theme.colors[theme.primaryColor][8]} size="xs">
-                    {`${user.tokens} tokens`}
+                    {`${user.tokens.toFixed(2)} tokens`}
                   </Text>
                 </div>
 
@@ -352,7 +326,7 @@ export function NavBar({ user }: Props) {
             </Tooltip>
           </Group>
           <div className={classes.collections}>
-            {actualUser ? (
+            {user ? (
               <>
                 {collectionsList.map((collection) => (
                   <a

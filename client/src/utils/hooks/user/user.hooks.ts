@@ -1,9 +1,10 @@
+import { AxiosResponse } from 'axios';
 import { useQuery, UseQueryResult } from 'react-query';
-import { apiClient } from '../../../api';
+import { apiClient } from '../../api';
 
 export const useFetchUser = (
   token = localStorage.getItem('access_token')
-): UseQueryResult<User | undefined> =>
+): UseQueryResult<AxiosResponse<User | undefined>> =>
   useQuery(
     'user',
     async () =>
@@ -16,5 +17,5 @@ export const useFetchUser = (
     {
       enabled: !!token,
       retry: false,
-    },
+    }
   );
