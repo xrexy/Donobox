@@ -4,7 +4,7 @@ import { LoginUserInput } from 'src/users/dto/input/login-user.input';
 
 import { User } from '../utils/graphql/models/user.model';
 import { AuthService } from './auth.service';
-import { CurrentUser } from './current-user.decorator';
+import { CurrentUser } from '../utils/current-user.decorator';
 import { GqlAuthGuard } from './guards/gql-auth.guard';
 
 @Controller('auth')
