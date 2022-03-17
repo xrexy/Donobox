@@ -24,8 +24,8 @@ import {
   User,
 } from 'tabler-icons-react';
 import { useFetchUser } from '../utils/config/hooks/user/user.hooks';
-import { LoginModal } from './auth/LoginModal';
-import { RegisterModal } from './auth/RegisterModal';
+import { LoginModal } from './modals/LoginModal';
+import { RegisterModal } from './modals/RegisterModal';
 
 import { ThemeToggler } from './ThemeToggler';
 

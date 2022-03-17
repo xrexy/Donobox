@@ -1,10 +1,9 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { Request } from 'express';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CreateUserInput } from 'src/users/dto/input/create-user.input';
+import { LoginUserInput } from 'src/users/dto/input/login-user.input';
 
 import { User } from '../utils/graphql/models/user.model';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './guards/local-auth.guard';
 import { CurrentUser } from './current-user.decorator';
 import { GqlAuthGuard } from './guards/gql-auth.guard';
 
@@ -12,10 +11,9 @@ import { GqlAuthGuard } from './guards/gql-auth.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(LocalAuthGuard)
   @Post('login')
-  login(@Req() req: Request): { access_token: string } {
-    return this.authService.login((req as any).user as User);
+  login(@Body() data: LoginUserInput): Promise<{ access_token: string }> {
+    return this.authService.login(data);
   }
 
   @UseGuards(GqlAuthGuard)

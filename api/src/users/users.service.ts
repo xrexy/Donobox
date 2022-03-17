@@ -1,15 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
+import { User } from '../utils/graphql/models/user.model';
 import { GetUserArgs } from './dto/args/get-user.args';
 import { GetUsersArgs } from './dto/args/get-users.args';
 import { CreateUserInput } from './dto/input/create-user.input';
 import { DeleteUserInput } from './dto/input/delete-user.input';
+import { LoginUserInput } from './dto/input/login-user.input';
 import { UpdateUserInput } from './dto/input/update-user.input';
-import { User } from '../utils/graphql/models/user.model';
 
 @Injectable()
 export class UsersService {
@@ -46,6 +47,27 @@ export class UsersService {
 
   public async getUserByEmail(email: string): Promise<User> {
     return this.userModel.findOne({ email });
+  }
+
+  async findByLogin({ email, password }: LoginUserInput): Promise<User> {
+    const user = await this.userModel.findOne({ email });
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
+    }
+
+    if (!(await this.validate(email, password))) {
+      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+    }
+
+    return user;
+  }
+
+  async validate(email: string, password: string): Promise<User | null> {
+    const user = await this.getUserByEmail(email);
+    if (!user) return;
+
+    return (await bcrypt.compare(password, user.password)) ? user : null;
   }
 
   public async getUsers(getUsersArgs: GetUsersArgs): Promise<User[]> {

@@ -5,29 +5,24 @@ import { CreateUserInput } from 'src/users/dto/input/create-user.input';
 import { User } from '../utils/graphql/models/user.model';
 import { UsersService } from '../users/users.service';
 import { jwtSecret } from './constants';
-import * as bcrypt from 'bcrypt';
+import { LoginUserInput } from 'src/users/dto/input/login-user.input';
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
   ) {}
-
-  async validate(email: string, password: string): Promise<User | null> {
-    const user = await this.usersService.getUserByEmail(email);
-    if (!user) return;
-
-    return (await bcrypt.compare(password, user.password)) ? user : null;
-  }
-
-  login(user: User): { access_token: string } {
+  async login(data: LoginUserInput): Promise<{ access_token: string }> {
+    const user = await this.usersService.findByLogin(data);
     const payload = {
       email: user.email,
       sub: user.userId,
     };
 
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(payload, {
+        expiresIn: data.rememberMe ? '1w' : '3600s',
+      }),
     };
   }
 
@@ -39,7 +34,12 @@ export class AuthService {
           HttpStatus.BAD_REQUEST,
         );
 
-      return this.login(await this.usersService.createUser(details));
+      const user = await this.usersService.createUser(details);
+      return this.login({
+        email: user.email,
+        password: user.password,
+        rememberMe: false,
+      });
     } catch (err) {
       throw new HttpException(`${err.message}`, HttpStatus.BAD_REQUEST);
     }
