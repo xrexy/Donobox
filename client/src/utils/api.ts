@@ -6,11 +6,8 @@ export const apiClient = axios.create({
   baseURL: BASE_URL,
 });
 
-interface LoginData {
+export const loginUser = async (data: {
   email: string;
   password: string;
   rememberMe: boolean;
-}
-
-export const loginUser = async (data: LoginData) =>
-  apiClient.post('/auth/login', { ...data });
+}) => apiClient.post('/auth/login', { ...data });
