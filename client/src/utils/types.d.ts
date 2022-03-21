@@ -8,3 +8,15 @@ type User = {
   tokens: number;
   userId: string;
 };
+
+type NavbarLink = {
+  icon: any;
+  label: string;
+  notifications?: number;
+  children?: React.ReactNode[];
+};
+
+type NavbarCollection = {
+  emoji: string;
+  label: string;
+};

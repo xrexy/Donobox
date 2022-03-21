@@ -1,7 +1,6 @@
 import {
   ActionIcon,
   Badge,
-  Button,
   Code,
   createStyles,
   Group,
@@ -10,42 +9,19 @@ import {
   TextInput,
   Tooltip,
   UnstyledButton,
-  useMantineTheme,
 } from '@mantine/core';
 import { useSpotlight } from '@mantine/spotlight';
-import React, { useContext, useState } from 'react';
-import {
-  Bulb,
-  Checkbox,
-  ChevronRight,
-  Plus,
-  Search,
-  User,
-} from 'tabler-icons-react';
+import React, { useContext } from 'react';
+import { Bulb, Checkbox, Plus, Search, User } from 'tabler-icons-react';
 
 import { AppContext } from '../utils/AppContext';
-import { LoginModal } from './modals/LoginModal';
-import { RegisterModal } from './modals/RegisterModal';
+import { UserMenu } from './menus/UserMenu';
 import { ThemeToggler } from './ThemeToggler';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
     display: 'flex',
     justifyContent: 'space-between',
-  },
-
-  user: {
-    display: 'block',
-    width: '100%',
-    padding: theme.spacing.md,
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
-
-    '&:hover': {
-      backgroundColor:
-        theme.colorScheme === 'dark'
-          ? theme.colors.dark[8]
-          : theme.colors.gray[0],
-    },
   },
 
   userControl: {
@@ -186,13 +162,17 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const links = [
+const links: NavbarLink[] = [
+  {
+    icon: User,
+    label: 'Profile',
+    children: [<UserMenu />],
+  },
   { icon: Bulb, label: 'Activity', notifications: 3 },
   { icon: Checkbox, label: 'Tasks', notifications: 4 },
-  { icon: User, label: 'Contacts' },
 ];
 
-const collectionsList = [
+const collectionsList: NavbarCollection[] = [
   { emoji: '👍', label: 'Sales' },
   { emoji: '🚚', label: 'Deliveries' },
   { emoji: '💸', label: 'Discounts' },
@@ -207,10 +187,6 @@ const collectionsList = [
 export function NavBar() {
   const { classes } = useStyles();
   const spotlight = useSpotlight();
-  const theme = useMantineTheme();
-
-  const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
-  const [registerModalIsOpen, setRegisterModalIsOpen] = useState(false);
 
   const { user } = useContext(AppContext);
 
@@ -220,10 +196,16 @@ export function NavBar() {
         <link.icon size={20} className={classes.mainLinkIcon} />
         <span>{link.label}</span>
       </div>
-      {link.notifications && (
-        <Badge size="sm" variant="filled" className={classes.mainLinkBadge}>
-          {link.notifications}
-        </Badge>
+      {link.children ? (
+        <>{link.children?.map((ch) => ch)}</>
+      ) : (
+        <>
+          {link.notifications && (
+            <Badge size="sm" variant="filled" className={classes.mainLinkBadge}>
+              {link.notifications}
+            </Badge>
+          )}
+        </>
       )}
     </UnstyledButton>
   ));
@@ -237,67 +219,10 @@ export function NavBar() {
       className={classes.navbar}
     >
       <div>
-        <Navbar.Section className={classes.section}>
-          {user ? (
-            <UnstyledButton className={classes.user}>
-              <Group>
-                <div style={{ flex: 1 }}>
-                  <Text size="sm" weight={500}>
-                    {user.email}
-                  </Text>
-
-                  <Text color={theme.colors[theme.primaryColor][8]} size="xs">
-                    {`${user.tokens.toFixed(2)} tokens`}
-                  </Text>
-                </div>
-
-                <ChevronRight size={14} />
-              </Group>
-            </UnstyledButton>
-          ) : (
-            <Group className={classes.userControl}>
-              <LoginModal
-                modalProps={{
-                  opened: loginModalIsOpen,
-                  onClose: () => setLoginModalIsOpen(false),
-                }}
-                dispatchers={{
-                  toEnable: setRegisterModalIsOpen,
-                  toDisable: setLoginModalIsOpen,
-                }}
-              />
-              <Button
-                className={classes.control}
-                size="md"
-                onClick={() => setLoginModalIsOpen(true)}
-              >
-                Login
-              </Button>
-
-              <RegisterModal
-                modalProps={{
-                  opened: registerModalIsOpen,
-                  onClose: () => setRegisterModalIsOpen(false),
-                }}
-                dispatchers={{
-                  toEnable: setLoginModalIsOpen,
-                  toDisable: setRegisterModalIsOpen,
-                }}
-              />
-              <Button
-                className={classes.control}
-                size="md"
-                onClick={() => setRegisterModalIsOpen(true)}
-              >
-                Register
-              </Button>
-            </Group>
-          )}
-        </Navbar.Section>
-
         <TextInput
           placeholder="Search"
           size="xs"
+          mt="xl"
           icon={<Search size={12} />}
           rightSectionWidth={70}
           rightSection={<Code className={classes.searchCode}>Ctrl + K</Code>}

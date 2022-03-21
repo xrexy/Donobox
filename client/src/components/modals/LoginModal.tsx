@@ -31,16 +31,18 @@ const schema = z.object({
 
 const errorTimeout = 5 * 1000;
 
-export function LoginModal({
-  modalProps: props,
-  dispatchers: { toDisable, toEnable },
-}: {
+export interface LoginProps {
   modalProps: ModalProps;
   dispatchers: {
     toDisable: React.Dispatch<React.SetStateAction<boolean>>;
     toEnable: React.Dispatch<React.SetStateAction<boolean>>;
   };
-}) {
+}
+
+export function LoginModal({
+  modalProps: props,
+  dispatchers: { toDisable, toEnable },
+}: LoginProps) {
   const [globalFormErrors, setGlobalFormErrors] = useState<string[]>();
   const form = useForm({
     schema: zodResolver(schema),
