@@ -16,15 +16,14 @@ import { UpdateUserInput } from './dto/input/update-user.input';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  hashPassword = (password: string, callback: (enc: string) => string) => {
-    bcrypt.hash(password, 10, (err, enc) => callback(enc));
-  };
-
   public async createUser(createUserData: CreateUserInput): Promise<User> {
     const user: User = {
       ...createUserData,
       userId: uuidv4(),
-      password: await bcrypt.hash(createUserData.password, 10),
+      password: await bcrypt.hash(
+        createUserData.password,
+        parseInt(process.env.HASH_SALT),
+      ),
       tokens: 0.0,
     };
     return this.userModel.create(user);

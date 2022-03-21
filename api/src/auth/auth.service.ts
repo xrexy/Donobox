@@ -27,16 +27,17 @@ export class AuthService {
 
   async register(details: CreateUserInput) {
     try {
-      if (await this.usersService.getUserByEmail(details.email))
+      if (await this.usersService.getUserByEmail(details.email)) {
         throw new HttpException(
           `User already registered`,
           HttpStatus.BAD_REQUEST,
         );
+      }
 
       const user = await this.usersService.createUser(details);
       return this.login({
         email: user.email,
-        password: user.password,
+        password: details.password,
         rememberMe: false,
       });
     } catch (err) {
