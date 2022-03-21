@@ -18,7 +18,6 @@ export class AuthService {
       email: user.email,
       sub: user.userId,
     };
-
     return {
       access_token: this.jwtService.sign(payload, {
         expiresIn: data.rememberMe ? '1w' : '3600s',

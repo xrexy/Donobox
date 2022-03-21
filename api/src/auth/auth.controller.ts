@@ -2,10 +2,10 @@ import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CreateUserInput } from 'src/users/dto/input/create-user.input';
 import { LoginUserInput } from 'src/users/dto/input/login-user.input';
 
+import { CurrentUser } from '../utils/current-user.decorator';
 import { User } from '../utils/graphql/models/user.model';
 import { AuthService } from './auth.service';
-import { CurrentUser } from '../utils/current-user.decorator';
-import { GqlAuthGuard } from './guards/gql-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -16,7 +16,7 @@ export class AuthController {
     return this.authService.login(data);
   }
 
-  @UseGuards(GqlAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('status')
   status(@CurrentUser() user: User) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import * as dotenv from 'dotenv';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -18,7 +18,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(validationPayload: { email: string; sub: string }) {
+  async validate(validationPayload: {
+    email: string;
+    sub: string;
+    exp: number;
+  }) {
+    if (Date.now() >= validationPayload.exp * 1000)
+      throw new HttpException('Token expired', HttpStatus.BAD_REQUEST);
     return this.usersService.getUserByEmail(validationPayload.email);
   }
 }
