@@ -9,6 +9,7 @@ import {
   TextInput,
   Tooltip,
   UnstyledButton,
+  useMantineTheme,
 } from '@mantine/core';
 import { useSpotlight } from '@mantine/spotlight';
 import React, { useContext } from 'react';
@@ -187,6 +188,7 @@ const collectionsList: NavbarCollection[] = [
 export function NavBar() {
   const { classes } = useStyles();
   const spotlight = useSpotlight();
+  const theme = useMantineTheme();
 
   const { user } = useContext(AppContext);
 
@@ -228,7 +230,13 @@ export function NavBar() {
           rightSection={<Code className={classes.searchCode}>Ctrl + K</Code>}
           styles={{
             rightSection: { pointerEvents: 'none' },
-            input: { border: 'none' },
+            input: {
+              border: `${
+                theme.colorScheme === 'light'
+                  ? `1px solid ${theme.colors.gray[2]}`
+                  : 'none'
+              }`,
+            },
           }}
           onClick={() => spotlight.openSpotlight()}
           mb="sm"

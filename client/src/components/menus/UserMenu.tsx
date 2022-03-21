@@ -1,21 +1,27 @@
 import { Divider, Menu, Text, useMantineTheme } from '@mantine/core';
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Trash, User, UserPlus } from 'tabler-icons-react';
 
 import { AppContext } from '../../utils/AppContext';
 
 export function UserMenu() {
-  const { user, updateToken } = useContext(AppContext);
+  const { user, updateToken, updateUser } = useContext(AppContext);
   const theme = useMantineTheme();
   const navigate = useNavigate();
+
+  const reactiveColor = useMemo(
+    () => (theme.colorScheme === 'dark' ? theme.white : theme.colors.gray[6]),
+    [theme.colorScheme, theme.colors.gray, theme.white]
+  );
+
   return (
     <Menu>
       {user ? (
         <>
-          <Menu.Item icon={<User size={14} color={theme.white} />} disabled>
+          <Menu.Item icon={<User size={14} color={reactiveColor} />} disabled>
             <div style={{ flex: 1 }}>
-              <Text color={theme.white} size="sm" weight={500}>
+              <Text color={reactiveColor} size="sm" weight={500}>
                 {user.email}
               </Text>
 
@@ -33,6 +39,7 @@ export function UserMenu() {
             onClick={() => {
               localStorage.removeItem('access_token');
               updateToken(undefined);
+              updateUser(undefined);
             }}
           >
             Logout
