@@ -1,21 +1,30 @@
 import { AxiosResponse } from 'axios';
+import { useContext } from 'react';
 import { useQuery, UseQueryResult } from 'react-query';
 import { apiClient } from '../../api';
+import { AppContext } from '../../AppContext';
 
-export const useFetchUser = (
-  token = localStorage.getItem('access_token')
-): UseQueryResult<AxiosResponse<User | undefined>> =>
-  useQuery(
-    'user',
-    async () =>
-      // eslint-disable-next-line @typescript-eslint/return-await
-      await apiClient.get('/auth/status', {
+export const useFetchUser = (): UseQueryResult<
+  AxiosResponse<User | undefined>
+> => {
+  const { accessToken, updateToken } = useContext(AppContext);
+  return useQuery(
+    ['user', accessToken],
+    async () => {
+      let token = accessToken;
+      if (!accessToken) {
+        token = localStorage.getItem('access_token') || '';
+        updateToken(token);
+      }
+
+      return apiClient.get('/auth/status', {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${accessToken || token}`,
         },
-      }),
+      });
+    },
     {
-      enabled: !!token,
       retry: false,
     }
   );
+};

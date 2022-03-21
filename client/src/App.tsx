@@ -11,6 +11,8 @@ import { AccessPoint, Book, Home, Search } from 'tabler-icons-react';
 
 import Compose from './components/Compose';
 import { HomePage } from './pages/HomePage';
+import { LoginPage } from './pages/LoginPage';
+import { RegisterPage } from './pages/RegisterPage';
 import { AppContext } from './utils/AppContext';
 import { useFetchUser } from './utils/hooks/user/user.hooks';
 
@@ -44,15 +46,21 @@ function App() {
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
-  const [_user, setUser] = useState<User>();
+  const [user, setUser] = useState<User>();
   const { data } = useFetchUser();
 
+  const [accessToken, setAccessToken] = useState<string>();
+
   const updateUser = () => setUser(data?.data);
+  const updateToken = (token?: string) =>
+    setAccessToken(token || localStorage.getItem('access_token') || '');
 
   useEffect(() => {
     if (!localStorage.getItem('theme')) {
       localStorage.setItem('theme', defaultTheme);
     }
+
+    updateToken();
   }, []);
 
   useEffect(() => {
@@ -100,13 +108,15 @@ function App() {
         {
           component: AppContext.Provider,
           options: {
-            value: { user: _user, updateUser },
+            value: { user, updateUser, accessToken, updateToken },
           },
         },
       ]}
     >
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </Compose>
   );

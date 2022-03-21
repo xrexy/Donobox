@@ -6,7 +6,7 @@ import { Trash, User, UserPlus } from 'tabler-icons-react';
 import { AppContext } from '../../utils/AppContext';
 
 export function UserMenu() {
-  const { user } = useContext(AppContext);
+  const { user, updateToken } = useContext(AppContext);
   const theme = useMantineTheme();
   const navigate = useNavigate();
   return (
@@ -27,7 +27,14 @@ export function UserMenu() {
           <Divider />
 
           <Menu.Label>Danger zone</Menu.Label>
-          <Menu.Item color="red" icon={<Trash size={14} />}>
+          <Menu.Item
+            color="red"
+            icon={<Trash size={14} />}
+            onClick={() => {
+              localStorage.removeItem('access_token');
+              updateToken(undefined);
+            }}
+          >
             Logout
           </Menu.Item>
         </>

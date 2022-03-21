@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { HeroText } from '../components/HeroText';
 import { Shell } from '../components/Shell';
 

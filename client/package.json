@@ -8,6 +8,7 @@
     "@mantine/hooks": "^4.0.4",
     "@mantine/next": "^4.0.4",
     "@mantine/notifications": "^3.6.14",
+    "@mantine/rte": "^4.0.7",
     "@mantine/spotlight": "^4.0.4",
     "@modulz/radix-icons": "^4.0.0",
     "@testing-library/jest-dom": "^5.14.1",
