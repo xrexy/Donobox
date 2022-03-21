@@ -26,3 +26,13 @@ export class User {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+
+UserSchema.set('toObject', {
+  versionKey: false,
+  transform: (doc, ret) => {
+    delete ret.__v;
+    delete ret._id;
+
+    return ret;
+  },
+});

@@ -18,10 +18,11 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('status')
-  status(@CurrentUser() user: User) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { __v, password, _id, ...others } = JSON.parse(JSON.stringify(user));
-    return others;
+  status(@CurrentUser() user: User): Omit<User, 'password'> {
+    const _user: User = (user as any).toObject();
+    delete _user.password;
+
+    return _user;
   }
 
   @Post('register')
