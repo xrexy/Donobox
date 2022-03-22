@@ -11,27 +11,26 @@ import {
   Group,
   Button,
 } from '@mantine/core';
+import { Shell } from '../components/Shell';
 
-export function RegisterPage() {
-  return (
+export const RegisterPage: React.FC = () => (
+  <Shell>
     <Container size={420} my={40}>
       <Title
         align="center"
         sx={(theme) => ({
           fontFamily: `Greycliff CF, ${theme.fontFamily}`,
           fontWeight: 900,
+          color:
+            theme.colorScheme === 'dark' ? theme.white : theme.colors.gray[8],
         })}
       >
-        Welcome back!
+        Welcome to Donobox
       </Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
-        Do not have an account yet?{' '}
-        <Anchor<'a'>
-          href="#"
-          size="sm"
-          onClick={(event) => event.preventDefault()}
-        >
-          Create account
+        Already a member?{' '}
+        <Anchor<'a'> href="/login" size="sm">
+          Login
         </Anchor>
       </Text>
 
@@ -54,9 +53,9 @@ export function RegisterPage() {
           </Anchor>
         </Group>
         <Button fullWidth mt="xl">
-          Register
+          Sign up
         </Button>
       </Paper>
     </Container>
-  );
-}
+  </Shell>
+);

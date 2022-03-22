@@ -11,7 +11,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
@@ -32,15 +32,15 @@ const schema = z.object({
 
 const errorTimeout = 5 * 1000;
 
-export function LoginPage() {
+export const LoginPage: React.FC = () => {
   const [globalFormErrors, setGlobalFormErrors] = useState<string[]>();
   const navigate = useNavigate();
-  const { updateToken, accessToken } = useContext(AppContext);
+  const { updateToken } = useContext(AppContext);
   const form = useForm({
     schema: zodResolver(schema),
     initialValues: {
-      email: 'sayykii@gmail.com',
-      password: 'nigger',
+      email: '',
+      password: '',
       rememberMe: false,
     },
   });
@@ -61,7 +61,7 @@ export function LoginPage() {
         </Title>
         <Text color="dimmed" size="sm" align="center" mt={5}>
           Do not have an account yet?{' '}
-          <Anchor<'a'> href="#" size="sm">
+          <Anchor<'a'> href="/register" size="sm">
             Create account
           </Anchor>
         </Text>
@@ -74,10 +74,8 @@ export function LoginPage() {
               rememberMe: formData.rememberMe,
             })
               .then((res) => {
-                console.log(res.data);
                 localStorage.setItem('access_token', res.data.access_token);
                 updateToken(res.data.access_token);
-                console.log(accessToken);
 
                 form.reset();
 
@@ -148,4 +146,4 @@ export function LoginPage() {
       </Container>
     </Shell>
   );
-}
+};
