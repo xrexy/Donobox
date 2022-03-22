@@ -11,3 +11,6 @@ export const loginUser = async (data: {
   password: string;
   rememberMe: boolean;
 }) => apiClient.post('/auth/login', { ...data });
+
+export const registerUser = async (data: { email: string; password: string }) =>
+  apiClient.post('/auth/register', { ...data });

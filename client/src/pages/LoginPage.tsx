@@ -105,7 +105,7 @@ export const LoginPage: React.FC = () => {
           <Paper withBorder shadow="md" p={30} mt={30} radius="md">
             <TextInput
               label="Email"
-              placeholder="you@mantine.dev"
+              placeholder="you@donobox.net"
               {...form.getInputProps('email')}
               required
             />
