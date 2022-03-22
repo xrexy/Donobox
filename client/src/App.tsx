@@ -10,6 +10,7 @@ import { Route, Routes } from 'react-router-dom';
 import { AccessPoint, Book, Home, Search } from 'tabler-icons-react';
 
 import Compose from './components/Compose';
+import { CreateFundraiserPage } from './pages/fundraisers/Create';
 import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
@@ -47,13 +48,17 @@ function App() {
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
   const [user, setUser] = useState<User>();
-  const { data } = useFetchUser();
 
   const [accessToken, setAccessToken] = useState<string>();
+  const { data } = useFetchUser(accessToken);
 
-  const updateUser = () => setUser(data?.data);
+  const updateUser = (user_?: User) => setUser(user_);
   const updateToken = (token?: string) =>
     setAccessToken(token || localStorage.getItem('access_token') || '');
+
+  useEffect(() => {
+    updateUser(data?.data);
+  }, [data?.data]);
 
   useEffect(() => {
     if (!localStorage.getItem('theme')) {
@@ -62,13 +67,6 @@ function App() {
 
     updateToken();
   }, []);
-
-  useEffect(() => {
-    if (!data?.data) return;
-
-    updateUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data?.data]);
 
   return (
     <Compose
@@ -105,19 +103,19 @@ function App() {
             limit: 5,
           },
         },
-        {
-          component: AppContext.Provider,
-          options: {
-            value: { user, updateUser, accessToken, updateToken },
-          },
-        },
       ]}
     >
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-      </Routes>
+      <AppContext.Provider
+        value={{ user, updateUser, accessToken, updateToken }}
+      >
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+
+          <Route path="/fundraiser/create" element={<CreateFundraiserPage />} />
+        </Routes>
+      </AppContext.Provider>
     </Compose>
   );
 }

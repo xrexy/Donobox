@@ -13,6 +13,7 @@ import {
 } from '@mantine/core';
 import { useSpotlight } from '@mantine/spotlight';
 import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Bulb, Checkbox, Plus, Search, User } from 'tabler-icons-react';
 
 import { AppContext } from '../utils/AppContext';
@@ -189,6 +190,7 @@ export function NavBar() {
   const { classes } = useStyles();
   const spotlight = useSpotlight();
   const theme = useMantineTheme();
+  const navigate = useNavigate();
 
   const { user } = useContext(AppContext);
 
@@ -252,7 +254,14 @@ export function NavBar() {
             <Text size="xs" weight={500} color="dimmed">
               My charities
             </Text>
-            <Tooltip label="New fundraiser" withArrow position="right">
+            <Tooltip
+              label={`${user ? 'New fundraiser' : 'Login'}`}
+              withArrow
+              position="right"
+              onClick={() =>
+                navigate(`${user ? '/fundraiser/create' : '/login'}`)
+              }
+            >
               <ActionIcon variant="default" size={18}>
                 <Plus size={12} />
               </ActionIcon>

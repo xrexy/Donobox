@@ -37,9 +37,10 @@ export function UserMenu() {
             color="red"
             icon={<Trash size={14} />}
             onClick={() => {
+              updateUser();
+
               localStorage.removeItem('access_token');
-              updateToken(undefined);
-              updateUser(undefined);
+              updateToken();
             }}
           >
             Logout
