@@ -14,6 +14,7 @@ export const useFetchUser = (
         },
       }),
     {
+      enabled: !!accessToken,
       retry: false,
     }
   );
