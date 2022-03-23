@@ -17,6 +17,13 @@ type Donation {
   sentBy: String!
 }
 
+type Fundraiser {
+  content: String!
+  createdBy: String!
+  fundraiserId: String!
+  title: String!
+}
+
 type Mutation {
   createUser(createUserData: CreateUserInput!): User!
   deleteUser(deleteUserData: DeleteUserInput!): User!
@@ -25,6 +32,7 @@ type Mutation {
 
 type Query {
   donation(donationId: String!): Donation
+  fundraiser(fundraiserId: String!): Fundraiser
   user(userId: String!): User
   users(userIds: [String!]!): [User]!
 }
