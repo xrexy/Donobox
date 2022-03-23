@@ -17,7 +17,7 @@ export class Fundraiser {
   title: string;
 
   @Field()
-  @Prop({ minlength: 50, maxlength: 500 })
+  @Prop({ minlength: 50 })
   content: string;
 }
 

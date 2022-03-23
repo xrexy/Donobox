@@ -14,3 +14,18 @@ export const loginUser = async (data: {
 
 export const registerUser = async (data: { email: string; password: string }) =>
   apiClient.post('/auth/register', { ...data });
+
+export const registerFundraiser = async (data: {
+  content: string;
+  title: string;
+  accessToken: string;
+}) =>
+  apiClient.post(
+    '/fundraisers/create',
+    { ...data },
+    {
+      headers: {
+        Authorization: `Bearer ${data.accessToken}`,
+      },
+    }
+  );

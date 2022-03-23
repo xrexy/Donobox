@@ -7,6 +7,7 @@ import {
   Container,
   useMantineTheme,
 } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -79,6 +80,7 @@ const useStyles = createStyles((theme) => ({
 export function HeroText() {
   const { classes } = useStyles();
   const theme = useMantineTheme();
+  const navigate = useNavigate();
 
   return (
     <Container className={classes.wrapper} size={1400}>
@@ -109,7 +111,11 @@ export function HeroText() {
           >
             Explore
           </Button>
-          <Button className={classes.control} size="lg">
+          <Button
+            className={classes.control}
+            size="lg"
+            onClick={() => navigate('/fundraiser/create')}
+          >
             Start a fundraiser
           </Button>
         </div>
