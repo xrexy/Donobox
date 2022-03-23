@@ -1,12 +1,14 @@
-import { Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
-import { ConfigModule } from '@nestjs/config';
-import { join } from 'path';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
+import { join } from 'path';
+
+import { AuthModule } from './auth/auth.module';
 import { DonationsModule } from './donations/donations.module';
+import { FundraisersModule } from './fundraisers/fundraisers.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -22,6 +24,7 @@ import { DonationsModule } from './donations/donations.module';
     UsersModule,
     AuthModule,
     DonationsModule,
+    FundraisersModule,
   ],
   controllers: [],
   providers: [],

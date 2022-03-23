@@ -4,7 +4,7 @@ import { GqlAuthGuard } from 'src/auth/guards/gql-auth.guard';
 import { User } from 'src/utils/graphql/models/user.model';
 
 import { DonationsService } from './donations.service';
-import { CreateDonationInput } from './dto/inputs/create-donation-input';
+import { CreateDonationInput } from './dto/inputs/create-donation.input';
 
 @Controller('donations')
 export class DonationsController {

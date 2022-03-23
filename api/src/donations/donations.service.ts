@@ -7,7 +7,7 @@ import { User } from 'src/utils/graphql/models/user.model';
 import { v4 as uuidv4 } from 'uuid';
 import { GetDonationArgs } from './dto/args/get-donation.args';
 
-import { CreateDonationInput } from './dto/inputs/create-donation-input';
+import { CreateDonationInput } from './dto/inputs/create-donation.input';
 
 @Injectable()
 export class DonationsService {
