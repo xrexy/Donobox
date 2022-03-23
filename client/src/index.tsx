@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
 
 import reportWebVitals from './utils/config/reportWebVitals';
-import App from './App';
+import { App } from './App';
 
 const queryClient = new QueryClient();
 

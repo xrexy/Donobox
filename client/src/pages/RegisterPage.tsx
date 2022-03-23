@@ -42,9 +42,9 @@ export const RegisterPage: React.FC = () => {
   const form = useForm({
     schema: zodResolver(schema),
     initialValues: {
-      email: 'test@gmail.com',
-      password: 'test123',
-      repeatPassword: 'test123',
+      email: '',
+      password: '',
+      repeatPassword: '',
     },
   });
 
@@ -93,12 +93,10 @@ export const RegisterPage: React.FC = () => {
                   navigate('/');
                 })
                 .catch((err) => {
-                  console.log(err.response);
                   let message: string | string[];
                   switch (err.response.status as number) {
                     case 400:
                       message = err.response.data.message;
-                      console.log(message);
 
                       if (typeof message === 'string') {
                         setGlobalFormErrors([capitalize(message)]);

@@ -1,12 +1,8 @@
-import {
-  ColorScheme,
-  ColorSchemeProvider,
-  MantineProvider,
-} from '@mantine/core';
+import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
-import { SpotlightAction, SpotlightProvider } from '@mantine/spotlight';
+import { SpotlightProvider } from '@mantine/spotlight';
 import React, { useEffect, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { AccessPoint, Book, Home, Search } from 'tabler-icons-react';
 
 import Compose from './components/Compose';
@@ -17,30 +13,30 @@ import { RegisterPage } from './pages/RegisterPage';
 import { AppContext } from './utils/AppContext';
 import { useFetchUser } from './utils/hooks/user/user.hooks';
 
-const actions: SpotlightAction[] = [
+const defaultTheme: ColorScheme = 'dark';
+
+const primitiveActions: SpotlightActionPrimitive[] = [
   {
     title: 'Home',
     description: 'Get to home page',
-    onTrigger: () => console.log('Home'),
     icon: <Home size={18} />,
+    path: '/',
   },
   {
     title: 'Dashboard',
     description: 'Get full information about current system status',
-    onTrigger: () => console.log('Dashboard'),
     icon: <AccessPoint size={18} />,
+    path: '/dashboard',
   },
   {
     title: 'Documentation',
     description: 'Visit documentation to lean more about all features',
-    onTrigger: () => console.log('Documentation'),
     icon: <Book size={18} />,
+    path: '/documentation',
   },
 ];
 
-const defaultTheme: ColorScheme = 'dark';
-
-function App() {
+export function App() {
   const [colorScheme, setColorScheme] = useState<ColorScheme>(
     (localStorage.getItem('theme') as ColorScheme) || defaultTheme
   );
@@ -48,8 +44,9 @@ function App() {
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
   const [user, setUser] = useState<User>();
-
   const [accessToken, setAccessToken] = useState<string>();
+  const navigate = useNavigate();
+
   const { data } = useFetchUser(accessToken);
 
   const updateUser = (user_?: User) => setUser(user_);
@@ -90,7 +87,10 @@ function App() {
         {
           component: SpotlightProvider,
           options: {
-            actions,
+            actions: primitiveActions.map((action) => ({
+              ...action,
+              onTrigger: () => navigate(action.path),
+            })),
             searchIcon: <Search size={18} />,
             searchPlaceholder: 'Search...',
             shortcut: ['mod + k', '/'],
@@ -119,5 +119,3 @@ function App() {
     </Compose>
   );
 }
-
-export default App;

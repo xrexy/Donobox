@@ -20,3 +20,12 @@ type NavbarCollection = {
   emoji: string;
   label: string;
 };
+
+type SpotlightActionPrimitive = {
+  title: string;
+  description: string;
+  icon: ReactNode;
+  path: string;
+  group?: string;
+  keywords?: string | string[];
+};
