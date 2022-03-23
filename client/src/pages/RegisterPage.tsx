@@ -16,7 +16,7 @@ import { z } from 'zod';
 import { Shell } from '../components/Shell';
 import { registerUser } from '../utils/api';
 import { AppContext } from '../utils/AppContext';
-import { capitalize } from '../utils/helpers';
+import { handleApi400Error } from '../utils/helpers';
 
 const schema = z.object({
   email: z
@@ -32,8 +32,6 @@ const schema = z.object({
     .min(5, { message: 'Minimum lenght is 5' })
     .nonempty({ message: "Password can't be empty" }),
 });
-
-const errorTimeout = 5 * 1000;
 
 export const RegisterPage: React.FC = () => {
   const [globalFormErrors, setGlobalFormErrors] = useState<string[]>();
@@ -93,25 +91,7 @@ export const RegisterPage: React.FC = () => {
                   navigate('/');
                 })
                 .catch((err) => {
-                  let message: string | string[];
-                  switch (err.response.status as number) {
-                    case 400:
-                      message = err.response.data.message;
-
-                      if (typeof message === 'string') {
-                        setGlobalFormErrors([capitalize(message)]);
-                      } else {
-                        setGlobalFormErrors(
-                          message.map((errToMap) => capitalize(errToMap))
-                        );
-                      }
-
-                      setTimeout(() => setGlobalFormErrors([]), errorTimeout);
-                      break;
-                    default:
-                      setGlobalFormErrors(['Invalid login credentials']);
-                      setTimeout(() => setGlobalFormErrors([]), errorTimeout);
-                  }
+                  handleApi400Error(err, setGlobalFormErrors);
                 });
             }
           )}
