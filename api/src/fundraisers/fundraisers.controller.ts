@@ -1,7 +1,8 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guards/gql-auth.guard';
 import { CurrentUser } from 'src/utils/current-user.decorator';
 import { User } from 'src/utils/graphql/models/user.model';
+
 import { CreateFundraiserInput } from './dto/inputs/create-fundraiser.input';
 import { FundraisersService } from './fundraisers.service';
 
@@ -19,5 +20,11 @@ export class FundraisersController {
     return {
       fundraiserId: created.fundraiserId,
     };
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Get('getAllUserFundraisers')
+  async getAllUserFundraisers(@CurrentUser() user: User) {
+    return this.fundraisersService.getAllForUser(user);
   }
 }

@@ -20,4 +20,8 @@ export class FundraisersService {
       createdBy: user.userId,
     });
   }
+
+  getAllForUser(user: User) {
+    return this.fundraiserModel.find({ createdBy: user.userId });
+  }
 }
