@@ -29,3 +29,18 @@ type SpotlightActionPrimitive = {
   group?: string;
   keywords?: string | string[];
 };
+
+type Fundraiser = {
+  fundraiserId: string;
+  createdBy: string;
+  title: string;
+  content: string;
+};
+
+type FundraiserResponse = {
+  isSingular: true;
+  data: Fundraiser[];
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  pages: number;
+};

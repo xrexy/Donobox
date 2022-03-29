@@ -34,6 +34,7 @@ export class FundraisersService {
       data: pages[page],
       hasNextPage: !!pages[page + 1],
       hasPreviousPage: !!pages[page - 1],
+      pages: pages.length,
     };
   }
 }
