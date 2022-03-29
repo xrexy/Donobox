@@ -9,6 +9,8 @@ import { CreateFundraiserInput } from './dto/inputs/create-fundraiser.input';
 
 @Injectable()
 export class FundraisersService {
+  CHUNK_SIZE = 4;
+
   constructor(
     @InjectModel(Fundraiser.name) private fundraiserModel: Model<Fundraiser>,
   ) {}
@@ -21,7 +23,19 @@ export class FundraisersService {
     });
   }
 
-  getAllForUser(user: User) {
-    return this.fundraiserModel.find({ createdBy: user.userId });
+  async getAllForUser(user: User, page = -1) {
+    const results = await this.fundraiserModel.find({ createdBy: user.userId });
+    const pages = [];
+    for (let i = 0; i < results.length; i += this.CHUNK_SIZE) {
+      pages.push(results.slice(i, i + this.CHUNK_SIZE));
+    }
+
+    return page === -1
+      ? { data: pages, pages: pages.length }
+      : {
+          data: pages[page],
+          hasNextPage: !!pages[page + 1],
+          hasPreviousPage: !!pages[page - 1],
+        };
   }
 }
