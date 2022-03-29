@@ -29,3 +29,6 @@ export const registerFundraiser = async (data: {
       },
     }
   );
+
+export const getUser = async (userId: string) =>
+  apiClient.get(`/users/${userId}`);

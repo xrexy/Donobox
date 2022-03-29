@@ -5,7 +5,7 @@ import { apiClient } from '../../api';
 import { AppContext } from '../../AppContext';
 
 export const useFetchUser = (
-  accessToken: string | undefined
+  accessToken?: string
 ): UseQueryResult<AxiosResponse<User | undefined>> => {
   const { user } = useContext(AppContext);
   return useQuery(
