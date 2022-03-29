@@ -23,19 +23,17 @@ export class FundraisersService {
     });
   }
 
-  async getAllForUser(user: User, page = -1) {
+  async getAllForUser(user: User, page: number) {
     const results = await this.fundraiserModel.find({ createdBy: user.userId });
     const pages = [];
     for (let i = 0; i < results.length; i += this.CHUNK_SIZE) {
       pages.push(results.slice(i, i + this.CHUNK_SIZE));
     }
 
-    return page === -1
-      ? { data: pages, pages: pages.length }
-      : {
-          data: pages[page],
-          hasNextPage: !!pages[page + 1],
-          hasPreviousPage: !!pages[page - 1],
-        };
+    return {
+      data: pages[page],
+      hasNextPage: !!pages[page + 1],
+      hasPreviousPage: !!pages[page - 1],
+    };
   }
 }
