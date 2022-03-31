@@ -155,6 +155,8 @@ export const ModifyFundraiserPage: React.FC<Props> = () => {
           <TextInput
             label="Title"
             placeholder="Your awesome fundraiser"
+            minLength={10}
+            maxLength={50}
             {...form.getInputProps('title')}
             required
           />
