@@ -20,7 +20,9 @@ type Donation {
 type Fundraiser {
   content: String!
   createdBy: String!
+  createdOn: String!
   fundraiserId: String!
+  raised: Float!
   title: String!
 }
 
