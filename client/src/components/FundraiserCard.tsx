@@ -42,6 +42,8 @@ const useStyles = createStyles((theme) => ({
   title: {
     fontWeight: 700,
     textTransform: 'uppercase',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
 
     '&:hover': {
       cursor: 'pointer',
@@ -71,7 +73,7 @@ export const FundraiserCard: React.FC<Props> = ({ fundraiser }) => {
         p="md"
         radius="md"
         key={fundraiser.title}
-        style={{ width: 340 }}
+        style={{ width: 400 }}
       >
         <Group position="apart">
           <Text
@@ -79,6 +81,7 @@ export const FundraiserCard: React.FC<Props> = ({ fundraiser }) => {
             color="dimmed"
             className={classes.title}
             onClick={() => navigate(`/fundraisers/${fundraiser.fundraiserId}`)}
+            style={{ maxWidth: '60%' }}
           >
             {fundraiser.title}
           </Text>

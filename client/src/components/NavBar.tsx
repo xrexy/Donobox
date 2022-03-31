@@ -129,12 +129,15 @@ const useStyles = createStyles((theme) => ({
     textDecoration: 'none',
     borderRadius: theme.radius.sm,
     fontSize: theme.fontSizes.xs,
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    lineHeight: 1,
+    fontWeight: 500,
+
     color:
       theme.colorScheme === 'dark'
         ? theme.colors.dark[0]
         : theme.colors.gray[7],
-    lineHeight: 1,
-    fontWeight: 500,
 
     '&:hover': {
       backgroundColor:
@@ -253,7 +256,7 @@ export function NavBar() {
         <Navbar.Section className={classes.section}>
           <Group className={classes.collectionsHeader} position="apart">
             <Text size="xs" weight={500} color="dimmed">
-              My charities
+              My fundraisers
             </Text>
             <Tooltip
               label={`${user ? 'New fundraiser' : 'Login'}`}
@@ -274,7 +277,11 @@ export function NavBar() {
                 {data?.data?.map((fundraiser) => (
                   <a
                     href="/"
-                    onClick={(event) => event.preventDefault()}
+                    onClick={(event) => {
+                      event.preventDefault();
+
+                      navigate(`/fundraisers/${fundraiser.fundraiserId}`);
+                    }}
                     key={fundraiser.fundraiserId}
                     className={classes.collectionLink}
                   >

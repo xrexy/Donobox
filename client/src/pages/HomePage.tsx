@@ -47,7 +47,7 @@ export const HomePage: React.FC<Props> = () => {
                   Your fundraisers
                 </Text>
 
-                {data.data.data && (
+                {data.data.data && data.data.pages > 1 && (
                   <Pagination
                     page={page}
                     position="center"
@@ -58,7 +58,11 @@ export const HomePage: React.FC<Props> = () => {
                   />
                 )}
               </Group>
-              <Group style={{ flexDirection: 'column' }}>
+              <Group
+                style={{
+                  flexDirection: `${data.data.data ? 'row' : 'column'}`,
+                }}
+              >
                 {data.data.data ? (
                   <>
                     {data?.data?.data.map((fundraiser) => (
