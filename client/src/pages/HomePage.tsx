@@ -4,7 +4,7 @@ import { FundraiserCard } from '../components/FundraiserCard';
 import { HeroText } from '../components/HeroText';
 import { Shell } from '../components/Shell';
 import { AppContext } from '../utils/AppContext';
-import { useFetchFundraiser } from '../utils/hooks/fundraisers/fundraiser.hooks';
+import { useFetchUserFundraisersPaginated } from '../utils/hooks/fundraisers/user-fundraisers-paginated.hooks';
 
 interface Props {}
 
@@ -12,7 +12,7 @@ export const HomePage: React.FC<Props> = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [page, setPage] = useState(1);
   const { accessToken, user } = useContext(AppContext);
-  const { data } = useFetchFundraiser(page - 1, accessToken);
+  const { data } = useFetchUserFundraisersPaginated(page - 1, accessToken);
   return (
     <Shell>
       {user && data?.data ? (

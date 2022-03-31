@@ -4,16 +4,16 @@ import { useQuery, UseQueryResult } from 'react-query';
 import { apiClient } from '../../api';
 import { AppContext } from '../../AppContext';
 
-export const useFetchFundraiser = (
+export const useFetchUserFundraisersPaginated = (
   page = -1,
   accessToken?: string
 ): UseQueryResult<AxiosResponse<FundraiserResponse | undefined>> => {
   const { user } = useContext(AppContext);
   return useQuery(
-    ['fundraiserPage', page, accessToken],
+    ['userFundraisersPaginated', page, accessToken],
     async () =>
       apiClient.get(
-        `fundraisers/getAllUserFundraisers${
+        `fundraisers/getAllUserFundraisersPaginated${
           page === -1 ? '' : `?page=${page}`
         }`,
         {

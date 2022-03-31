@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { Bulb, Checkbox, Plus, Search, User } from 'tabler-icons-react';
 
 import { AppContext } from '../utils/AppContext';
+import { useFetchUserFundraisers } from '../utils/hooks/fundraisers/user-fundraisers.hooks';
 import { UserMenu } from './menus/UserMenu';
 import { ThemeToggler } from './ThemeToggler';
 
@@ -174,17 +175,17 @@ const links: NavbarLink[] = [
   { icon: Checkbox, label: 'Tasks', notifications: 4 },
 ];
 
-const collectionsList: NavbarCollection[] = [
-  { emoji: '👍', label: 'Sales' },
-  { emoji: '🚚', label: 'Deliveries' },
-  { emoji: '💸', label: 'Discounts' },
-  { emoji: '💰', label: 'Profits' },
-  { emoji: '✨', label: 'Reports' },
-  { emoji: '🛒', label: 'Orders' },
-  { emoji: '📅', label: 'Events' },
-  { emoji: '🙈', label: 'Debts' },
-  { emoji: '💁‍♀️', label: 'Customers' },
-];
+// const collectionsList: NavbarCollection[] = [
+//   { emoji: '👍', label: 'Sales' },
+//   { emoji: '🚚', label: 'Deliveries' },
+//   { emoji: '💸', label: 'Discounts' },
+//   { emoji: '💰', label: 'Profits' },
+//   { emoji: '✨', label: 'Reports' },
+//   { emoji: '🛒', label: 'Orders' },
+//   { emoji: '📅', label: 'Events' },
+//   { emoji: '🙈', label: 'Debts' },
+//   { emoji: '💁‍♀️', label: 'Customers' },
+// ];
 
 export function NavBar() {
   const { classes } = useStyles();
@@ -192,7 +193,9 @@ export function NavBar() {
   const theme = useMantineTheme();
   const navigate = useNavigate();
 
-  const { user } = useContext(AppContext);
+  const { user, accessToken } = useContext(AppContext);
+  const { data } = useFetchUserFundraisers(accessToken);
+  console.log(data);
 
   const mainLinks = links.map((link) => (
     <UnstyledButton key={link.label} className={classes.mainLink}>
@@ -270,17 +273,14 @@ export function NavBar() {
           <div className={classes.collections}>
             {user ? (
               <>
-                {collectionsList.map((collection) => (
+                {data?.data?.map((fundraiser) => (
                   <a
                     href="/"
                     onClick={(event) => event.preventDefault()}
-                    key={collection.label}
+                    key={fundraiser.fundraiserId}
                     className={classes.collectionLink}
                   >
-                    <span style={{ marginRight: 9, fontSize: 16 }}>
-                      {collection.emoji}
-                    </span>{' '}
-                    {collection.label}
+                    {fundraiser.title}
                   </a>
                 ))}
               </>

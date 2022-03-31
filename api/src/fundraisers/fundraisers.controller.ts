@@ -24,11 +24,17 @@ export class FundraisersController {
   }
 
   @UseGuards(GqlAuthGuard)
-  @Get('getAllUserFundraisers')
-  async getAllUserFundraisers(
+  @Get('getAllUserFundraisersPaginated')
+  async getAllUserFundraisersPaginated(
     @CurrentUser() user: User,
     @Query() params: GetFundraiserParam,
   ) {
-    return this.fundraisersService.getAllForUser(user, params.page);
+    return this.fundraisersService.getAllForUserPaginated(user, params.page);
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Get('getAllUserFundraisers')
+  async getAllUserFundraisers(@CurrentUser() user: User) {
+    return this.fundraisersService.getAllForUser(user);
   }
 }

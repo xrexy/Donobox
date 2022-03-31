@@ -23,7 +23,7 @@ export class FundraisersService {
     });
   }
 
-  async getAllForUser(user: User, page: number) {
+  async getAllForUserPaginated(user: User, page: number) {
     const results = await this.fundraiserModel.find({ createdBy: user.userId });
     const pages = [];
     for (let i = 0; i < results.length; i += this.CHUNK_SIZE) {
@@ -37,4 +37,7 @@ export class FundraisersService {
       pages: pages.length,
     };
   }
+
+  getAllForUser = (user: User) =>
+    this.fundraiserModel.find({ createdBy: user.userId });
 }
