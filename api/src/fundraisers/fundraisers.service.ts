@@ -20,6 +20,7 @@ export class FundraisersService {
       ...data,
       fundraiserId: uuidv4(),
       createdBy: user.userId,
+      raised: 0.0,
     });
   }
 

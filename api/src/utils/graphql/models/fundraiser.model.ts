@@ -19,6 +19,10 @@ export class Fundraiser {
   @Field()
   @Prop({ minlength: 50 })
   content: string;
+
+  @Field()
+  @Prop({ min: 0, default: 0 })
+  raised: number;
 }
 
 export const FundraiserSchema = SchemaFactory.createForClass(Fundraiser);
