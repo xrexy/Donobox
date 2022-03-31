@@ -29,7 +29,23 @@ export const HomePage: React.FC<Props> = () => {
         <>
           <Group position="center">
             <Stack>
-              <Text className={classes.fundraisersTitle}>Your fundraisers</Text>
+              <Group
+                align="baseline"
+                style={{ justifyContent: 'space-between' }}
+              >
+                <Text className={classes.fundraisersTitle}>
+                  Your fundraisers
+                </Text>
+
+                <Pagination
+                  page={page}
+                  position="center"
+                  onChange={setPage}
+                  total={data.data.pages}
+                  siblings={2}
+                  mt={20}
+                />
+              </Group>
               <Group>
                 {data?.data?.data.map((fundraiser) => (
                   <FundraiserCard
@@ -40,15 +56,6 @@ export const HomePage: React.FC<Props> = () => {
               </Group>
             </Stack>
           </Group>
-
-          <Pagination
-            page={page}
-            position="center"
-            onChange={setPage}
-            total={data.data.pages}
-            siblings={2}
-            mt={20}
-          />
         </>
       ) : (
         <HeroText />
