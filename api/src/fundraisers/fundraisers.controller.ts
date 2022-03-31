@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Post,
   Query,
   UseGuards,
@@ -48,11 +49,12 @@ export class FundraisersController {
   }
 
   @UseGuards(GqlAuthGuard)
-  @Delete('delete')
+  @Delete('delete/:fundraiserId')
   deleteFundraiser(
     @CurrentUser() user: User,
-    @Body() data: DeleteFundraiserInput,
+    @Param() param: DeleteFundraiserInput,
   ) {
-    return this.fundraisersService.deleteFundraiser(user, data);
+    console.log(param);
+    return this.fundraisersService.deleteFundraiser(user, param);
   }
 }
