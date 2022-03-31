@@ -14,6 +14,7 @@ type NavbarLink = {
   label: string;
   notifications?: number;
   children?: React.ReactNode[];
+  path?: string;
 };
 
 type NavbarCollection = {

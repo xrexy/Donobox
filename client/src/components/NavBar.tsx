@@ -14,7 +14,7 @@ import {
 import { useSpotlight } from '@mantine/spotlight';
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Bulb, Checkbox, Plus, Search, User } from 'tabler-icons-react';
+import { Bulb, Checkbox, Home, Plus, Search, User } from 'tabler-icons-react';
 
 import { AppContext } from '../utils/AppContext';
 import { useFetchUserFundraisers } from '../utils/hooks/fundraisers/user-fundraisers.hooks';
@@ -167,6 +167,11 @@ const useStyles = createStyles((theme) => ({
 
 const links: NavbarLink[] = [
   {
+    icon: Home,
+    label: 'Homepage',
+    path: '/',
+  },
+  {
     icon: User,
     label: 'Profile',
     children: [<UserMenu />],
@@ -174,18 +179,6 @@ const links: NavbarLink[] = [
   { icon: Bulb, label: 'Activity', notifications: 3 },
   { icon: Checkbox, label: 'Tasks', notifications: 4 },
 ];
-
-// const collectionsList: NavbarCollection[] = [
-//   { emoji: '👍', label: 'Sales' },
-//   { emoji: '🚚', label: 'Deliveries' },
-//   { emoji: '💸', label: 'Discounts' },
-//   { emoji: '💰', label: 'Profits' },
-//   { emoji: '✨', label: 'Reports' },
-//   { emoji: '🛒', label: 'Orders' },
-//   { emoji: '📅', label: 'Events' },
-//   { emoji: '🙈', label: 'Debts' },
-//   { emoji: '💁‍♀️', label: 'Customers' },
-// ];
 
 export function NavBar() {
   const { classes } = useStyles();
@@ -195,10 +188,15 @@ export function NavBar() {
 
   const { user, accessToken } = useContext(AppContext);
   const { data } = useFetchUserFundraisers(accessToken);
-  console.log(data);
 
   const mainLinks = links.map((link) => (
-    <UnstyledButton key={link.label} className={classes.mainLink}>
+    <UnstyledButton
+      key={link.label}
+      className={classes.mainLink}
+      onClick={() => {
+        if (link.path) navigate(link.path);
+      }}
+    >
       <div className={classes.mainLinkInner}>
         <link.icon size={20} className={classes.mainLinkIcon} />
         <span>{link.label}</span>
