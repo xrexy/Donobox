@@ -6,7 +6,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import { AccessPoint, Book, Home, Search } from 'tabler-icons-react';
 
 import Compose from './components/Compose';
-import { CreateFundraiserPage } from './pages/fundraisers/Create';
+import { ModifyFundraiserPage } from './pages/fundraisers/Modify';
 import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
@@ -113,7 +113,7 @@ export function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
-          <Route path="/fundraiser/create" element={<CreateFundraiserPage />} />
+          <Route path="/fundraisers/modify" element={<ModifyFundraiserPage />} />
         </Routes>
       </AppContext.Provider>
     </Compose>

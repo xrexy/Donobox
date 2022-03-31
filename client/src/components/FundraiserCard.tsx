@@ -100,6 +100,15 @@ export const FundraiserCard: React.FC<Props> = ({ fundraiser }) => {
               variant="gradient"
               gradient={{ from: 'cyan', to: 'teal', deg: 20 }}
               className={classes.badge}
+              onClick={() =>
+                navigate('/fundraisers/modify', {
+                  state: {
+                    title: fundraiser.title,
+                    content: fundraiser.content,
+                    fundraiserId: fundraiser.fundraiserId,
+                  },
+                })
+              }
             >
               Edit
             </Badge>

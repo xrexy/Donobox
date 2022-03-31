@@ -13,11 +13,11 @@ import { useNotifications } from '@mantine/notifications';
 import RichTextEditor from '@mantine/rte';
 import { CheckIcon } from '@modulz/radix-icons';
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
 import { Shell } from '../../components/Shell';
-import { registerFundraiser } from '../../utils/api';
+import { registerFundraiser, updateFundraiser } from '../../utils/api';
 import { AppContext } from '../../utils/AppContext';
 import { handleApi400Error } from '../../utils/helpers';
 
@@ -51,6 +51,12 @@ const useStyles = createStyles((theme) => ({
 
 interface Props {}
 
+type LocationState = {
+  title: string;
+  content: string;
+  fundraiserId: string;
+};
+
 const schema = z.object({
   title: z
     .string()
@@ -63,9 +69,10 @@ const schema = z.object({
     .max(500, { message: "Content can't be longer than 500 characters" }),
 });
 
-export const CreateFundraiserPage: React.FC<Props> = () => {
+export const ModifyFundraiserPage: React.FC<Props> = () => {
   const { accessToken } = useContext(AppContext);
   const { classes } = useStyles();
+  const { state } = useLocation();
 
   const theme = useMantineTheme();
   const navigate = useNavigate();
@@ -76,8 +83,8 @@ export const CreateFundraiserPage: React.FC<Props> = () => {
   const form = useForm({
     schema: zodResolver(schema),
     initialValues: {
-      title: '',
-      content: '',
+      title: (state as LocationState)?.title || '',
+      content: (state as LocationState)?.content || '',
     },
   });
 
@@ -99,31 +106,50 @@ export const CreateFundraiserPage: React.FC<Props> = () => {
         )}
 
         <form
-          onSubmit={form.onSubmit(async (data) => {
-            if (data.content.length < 50) {
+          onSubmit={form.onSubmit(async (formData) => {
+            if (formData.content.length < 50) {
               form.setFieldError(
                 'content',
                 'Content must be at least 50 characters'
               );
               return;
             }
-
-            registerFundraiser({
-              ...data,
-              accessToken: accessToken || '',
-            })
-              .then(() => {
-                notiManager.showNotification({
-                  message: `Your fundraiser "${data.title}" is online!`,
-                  title: '🎉 Hooray!',
-                  color: 'lime',
-                  icon: <CheckIcon />,
-                });
-                navigate('/');
+            if (state) {
+              updateFundraiser({
+                ...formData,
+                accessToken: accessToken || '',
+                fundraiserId: (state as LocationState)?.fundraiserId,
               })
-              .catch((err) => {
-                handleApi400Error(err, setGlobalFormErrors);
-              });
+                .then(() => {
+                  notiManager.showNotification({
+                    message: `Your fundraiser "${formData.title}" is fresh new!`,
+                    title: 'Updated!',
+                    color: 'green',
+                    icon: <CheckIcon />,
+                  });
+                  navigate('/');
+                })
+                .catch((err) => {
+                  handleApi400Error(err, setGlobalFormErrors);
+                });
+            } else {
+              registerFundraiser({
+                ...formData,
+                accessToken: accessToken || '',
+              })
+                .then(() => {
+                  notiManager.showNotification({
+                    message: `Your fundraiser "${formData.title}" is online!`,
+                    title: '🎉 Hooray!',
+                    color: 'lime',
+                    icon: <CheckIcon />,
+                  });
+                  navigate('/');
+                })
+                .catch((err) => {
+                  handleApi400Error(err, setGlobalFormErrors);
+                });
+            }
           })}
         >
           <TextInput
@@ -160,7 +186,7 @@ export const CreateFundraiserPage: React.FC<Props> = () => {
           </ul>
 
           <Button fullWidth mt="md" type="submit">
-            Fundraise!
+            {`${state ? 'Update' : 'Fundraise!'}`}
           </Button>
         </form>
       </Container>

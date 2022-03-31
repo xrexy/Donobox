@@ -21,7 +21,7 @@ export const handleApi400Error = (
       setTimeout(() => set([]), errorTimeout);
       break;
     default:
-      set(['Invalid login credentials']);
+      set(['Invalid credentials']);
       setTimeout(() => set([]), errorTimeout);
   }
 };

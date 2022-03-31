@@ -1,8 +1,9 @@
 import { InputType } from '@nestjs/graphql';
-import { IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 @InputType()
 export class DeleteFundraiserInput {
   @IsString()
+  @IsNotEmpty()
   fundraiserId: string;
 }

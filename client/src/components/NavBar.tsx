@@ -260,7 +260,7 @@ export function NavBar() {
               withArrow
               position="right"
               onClick={() =>
-                navigate(`${user ? '/fundraiser/create' : '/login'}`)
+                navigate(`${user ? '/fundraisers/modify' : '/login'}`)
               }
             >
               <ActionIcon variant="default" size={18}>

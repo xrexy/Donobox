@@ -30,8 +30,23 @@ export const registerFundraiser = (data: {
     }
   );
 
-export const getUser = (userId: string) =>
-  apiClient.get(`/users/${userId}`);
+export const updateFundraiser = (data: {
+  content: string;
+  title: string;
+  fundraiserId: string;
+  accessToken: string;
+}) =>
+  apiClient.post(
+    '/fundraisers/update',
+    { ...data },
+    {
+      headers: {
+        Authorization: `Bearer ${data.accessToken}`,
+      },
+    }
+  );
+
+export const getUser = (userId: string) => apiClient.get(`/users/${userId}`);
 
 export const deleteFundraiser = (data: {
   fundraiserId: string;
