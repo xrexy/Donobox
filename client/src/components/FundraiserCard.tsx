@@ -28,17 +28,6 @@ const useStyles = createStyles((theme) => ({
     lineHeight: 1,
   },
 
-  icon: {
-    color:
-      theme.colorScheme === 'dark'
-        ? theme.colors.dark[3]
-        : theme.colors.gray[4],
-
-    '&:hover': {
-      color: 'red',
-    },
-  },
-
   title: {
     fontWeight: 700,
     textTransform: 'uppercase',
@@ -47,7 +36,7 @@ const useStyles = createStyles((theme) => ({
 
     '&:hover': {
       cursor: 'pointer',
-      color: 'white',
+      color: theme.colorScheme === 'dark' ? 'white' : 'black',
     },
   },
 
