@@ -114,9 +114,9 @@ export function HeroText() {
           <Button
             className={classes.control}
             size="lg"
-            onClick={() => navigate('/fundraiser/create')}
+            onClick={() => navigate('/register')}
           >
-            Start a fundraiser
+            Start fundraising
           </Button>
         </div>
       </div>
