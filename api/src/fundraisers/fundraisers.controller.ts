@@ -48,7 +48,7 @@ export class FundraisersController {
   }
 
   @UseGuards(GqlAuthGuard)
-  @Delete('deleteFundraiser')
+  @Delete('delete')
   deleteFundraiser(
     @CurrentUser() user: User,
     @Body() data: DeleteFundraiserInput,
