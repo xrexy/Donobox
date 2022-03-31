@@ -6,16 +6,16 @@ export const apiClient = axios.create({
   baseURL: BASE_URL,
 });
 
-export const loginUser = async (data: {
+export const loginUser = (data: {
   email: string;
   password: string;
   rememberMe: boolean;
 }) => apiClient.post('/auth/login', { ...data });
 
-export const registerUser = async (data: { email: string; password: string }) =>
+export const registerUser = (data: { email: string; password: string }) =>
   apiClient.post('/auth/register', { ...data });
 
-export const registerFundraiser = async (data: {
+export const registerFundraiser = (data: {
   content: string;
   title: string;
   accessToken: string;
@@ -30,5 +30,15 @@ export const registerFundraiser = async (data: {
     }
   );
 
-export const getUser = async (userId: string) =>
+export const getUser = (userId: string) =>
   apiClient.get(`/users/${userId}`);
+
+export const deleteFundraiser = (data: {
+  fundraiserId: string;
+  accessToken: string;
+}) =>
+  apiClient.delete(`/fundraisers/delete/${data.fundraiserId}`, {
+    headers: {
+      Authorization: `Bearer ${data.accessToken}`,
+    },
+  });
