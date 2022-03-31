@@ -18,7 +18,6 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export const HomePage: React.FC<Props> = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [page, setPage] = useState(1);
   const { accessToken, user } = useContext(AppContext);
   const { data } = useFetchUserFundraisersPaginated(page - 1, accessToken);

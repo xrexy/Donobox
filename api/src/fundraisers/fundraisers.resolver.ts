@@ -1,6 +1,6 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import { Fundraiser } from 'src/utils/graphql/models/fundraiser.model';
-import { GetFundraiserArgs } from './dto/args/get-fundraiser.args';
+import { GetFundraiserArgs } from './dto/args/get-fundraiser.arg';
 import { FundraisersService } from './fundraisers.service';
 
 @Resolver()

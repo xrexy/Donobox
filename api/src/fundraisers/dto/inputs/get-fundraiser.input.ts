@@ -1,7 +1,9 @@
+import { InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
 import { IsNumber, Min } from 'class-validator';
 
-export class GetFundraiserParam {
+@InputType()
+export class GetFundraiserInput {
   @Type(() => Number)
   @IsNumber()
   @Min(0)

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Fundraiser } from 'src/utils/graphql/models/fundraiser.model';
@@ -6,6 +6,7 @@ import { User } from 'src/utils/graphql/models/user.model';
 import { v4 as uuidv4 } from 'uuid';
 
 import { CreateFundraiserInput } from './dto/inputs/create-fundraiser.input';
+import { DeleteFundraiserInput } from './dto/inputs/delete-fundraiser.input';
 
 @Injectable()
 export class FundraisersService {
@@ -42,4 +43,24 @@ export class FundraisersService {
 
   getAllForUser = (user: User) =>
     this.fundraiserModel.find({ createdBy: user.userId });
+
+  async deleteFundraiser(user: User, data: DeleteFundraiserInput) {
+    const fundraiser = await this.fundraiserModel.findOne({
+      fundraiserId: data.fundraiserId,
+    });
+
+    if (!fundraiser)
+      throw new HttpException(
+        'No fundraiser exists with that ID',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    if (fundraiser.createdBy !== user.userId)
+      throw new HttpException(
+        '[Fundraiser] createdBy and [User] userId missmatch',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    return this.fundraiserModel.deleteOne({ fundraiserId: data.fundraiserId });
+  }
 }
