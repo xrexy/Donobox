@@ -34,8 +34,10 @@ type SpotlightActionPrimitive = {
 type Fundraiser = {
   fundraiserId: string;
   createdBy: string;
+  createdOn: string;
   title: string;
   content: string;
+  raised: number;
 };
 
 type FundraiserResponse = {

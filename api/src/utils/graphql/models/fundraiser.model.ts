@@ -13,6 +13,10 @@ export class Fundraiser {
   createdBy: string;
 
   @Field()
+  @Prop()
+  createdOn: string;
+
+  @Field()
   @Prop({ minlength: 10, maxlength: 50 })
   title: string;
 
