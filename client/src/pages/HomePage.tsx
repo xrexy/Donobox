@@ -1,5 +1,6 @@
 import { createStyles, Group, Pagination, Stack, Text } from '@mantine/core';
 import React, { useContext, useState } from 'react';
+import { MoodConfuzed } from 'tabler-icons-react';
 
 import { FundraiserCard } from '../components/FundraiserCard';
 import { HeroText } from '../components/HeroText';
@@ -15,7 +16,17 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 700,
     fontSize: 28,
   },
+
+  emptyFundraisersGroup: {
+    color: theme.colorScheme === 'dark' ? theme.colors.gray[7] : theme.black,
+  },
 }));
+
+const emptyQuotes = [
+  'Wow... Such empty',
+  'Well... This is awkward',
+  'No fundraisers found',
+];
 
 export const HomePage: React.FC<Props> = () => {
   const [page, setPage] = useState(1);
@@ -36,22 +47,43 @@ export const HomePage: React.FC<Props> = () => {
                   Your fundraisers
                 </Text>
 
-                <Pagination
-                  page={page}
-                  position="center"
-                  onChange={setPage}
-                  total={data.data.pages}
-                  siblings={2}
-                  mt={20}
-                />
-              </Group>
-              <Group>
-                {data?.data?.data.map((fundraiser) => (
-                  <FundraiserCard
-                    key={fundraiser.fundraiserId}
-                    fundraiser={fundraiser}
+                {data.data.data && (
+                  <Pagination
+                    page={page}
+                    position="center"
+                    onChange={setPage}
+                    total={data.data.pages}
+                    siblings={2}
+                    mt={20}
                   />
-                ))}
+                )}
+              </Group>
+              <Group style={{ flexDirection: 'column' }}>
+                {data.data.data ? (
+                  <>
+                    {data?.data?.data.map((fundraiser) => (
+                      <FundraiserCard
+                        key={fundraiser.fundraiserId}
+                        fundraiser={fundraiser}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <Stack
+                    align="center"
+                    justify="center"
+                    className={classes.emptyFundraisersGroup}
+                  >
+                    <MoodConfuzed size={69} />
+                    <Text>
+                      {
+                        emptyQuotes[
+                          Math.floor(Math.random() * emptyQuotes.length)
+                        ]
+                      }
+                    </Text>
+                  </Stack>
+                )}
               </Group>
             </Stack>
           </Group>
