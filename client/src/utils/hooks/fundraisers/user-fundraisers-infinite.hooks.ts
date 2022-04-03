@@ -4,18 +4,22 @@ import { useQuery, UseQueryResult } from 'react-query';
 import { apiClient } from '../../api';
 import { AppContext } from '../../AppContext';
 
-export const useFetchUserFundraisers = (
+export const useFetchUserFundraisersInfinite = (
+  page?: number,
   accessToken?: string
 ): UseQueryResult<AxiosResponse<Fundraiser[] | undefined>> => {
   const { user } = useContext(AppContext);
   return useQuery(
-    ['userFundraisers', accessToken],
+    ['userFundraisersInfinite', page, accessToken],
     () =>
-      apiClient.get('fundraisers/for-user', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }),
+      apiClient.get(
+        `fundraisers/for-user/infinite${page ? '' : `?page=${page}`}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      ),
     {
       enabled: !!accessToken && !!user,
       retry: false,

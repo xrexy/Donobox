@@ -5,6 +5,7 @@ import {
   createStyles,
   Group,
   Navbar,
+  ScrollArea,
   Text,
   TextInput,
   Tooltip,
@@ -115,6 +116,7 @@ const useStyles = createStyles((theme) => ({
     paddingLeft: theme.spacing.md - 6,
     paddingRight: theme.spacing.md - 6,
     paddingBottom: theme.spacing.md,
+    position: 'relative',
   },
 
   collectionsHeader: {
@@ -226,7 +228,7 @@ export function NavBar() {
       pb="md"
       className={classes.navbar}
     >
-      <div>
+      <di>
         <TextInput
           placeholder="Search"
           size="xs"
@@ -253,7 +255,10 @@ export function NavBar() {
           <div className={classes.mainLinks}>{mainLinks}</div>
         </Navbar.Section>
 
-        <Navbar.Section className={classes.section}>
+        <Navbar.Section
+          className={classes.section}
+          style={{ flexGrow: 1 }}
+        >
           <Group className={classes.collectionsHeader} position="apart">
             <Text size="xs" weight={500} color="dimmed">
               My fundraisers
@@ -271,7 +276,11 @@ export function NavBar() {
               </ActionIcon>
             </Tooltip>
           </Group>
-          <div className={classes.collections}>
+
+          <ScrollArea
+            style={{ height: '100%' }}
+            className={classes.collections}
+          >
             {user ? (
               <>
                 {data?.data?.map((fundraiser) => (
@@ -300,9 +309,9 @@ export function NavBar() {
                 login to continue
               </a>
             )}
-          </div>
+          </ScrollArea>
         </Navbar.Section>
-      </div>
+      </di>
       <Navbar.Section className={classes.footer}>
         <ThemeToggler />
       </Navbar.Section>

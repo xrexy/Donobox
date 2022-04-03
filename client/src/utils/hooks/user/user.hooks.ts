@@ -10,7 +10,7 @@ export const useFetchUser = (
   const { user } = useContext(AppContext);
   return useQuery(
     ['user', accessToken],
-    async () =>
+    () =>
       apiClient.get('/auth/status', {
         headers: {
           Authorization: `Bearer ${accessToken}`,

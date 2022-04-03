@@ -11,9 +11,9 @@ export const useFetchUserFundraisersPaginated = (
   const { user } = useContext(AppContext);
   return useQuery(
     ['userFundraisersPaginated', page, accessToken],
-    async () =>
+    () =>
       apiClient.get(
-        `fundraisers/getAllUserFundraisersPaginated${
+        `fundraisers/for-user/paginated${
           page === -1 ? '' : `?page=${page}`
         }`,
         {

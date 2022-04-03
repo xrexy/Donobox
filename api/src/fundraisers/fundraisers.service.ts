@@ -18,6 +18,15 @@ export class FundraisersService {
   ) {}
 
   create(user: User, data: CreateFundraiserInput): Promise<Fundraiser> {
+    for (let i = 0; i <= 20; i++)
+      this.fundraiserModel.create({
+        ...data,
+        title: `${data.title} - ${i}`,
+        fundraiserId: uuidv4(),
+        createdBy: user.userId,
+        createdOn: new Date().toDateString(),
+        raised: 0.0,
+      });
     return this.fundraiserModel.create({
       ...data,
       fundraiserId: uuidv4(),
@@ -54,7 +63,15 @@ export class FundraisersService {
     );
   }
 
-  async getAllForUserPaginated(user: User, page: number) {
+  async getAllForUserInfinite(page = 0, limit = 10) {
+    return this.fundraiserModel
+      .find()
+      .sort({ createdOn: -1 })
+      .skip(page * limit)
+      .limit(limit);
+  }
+
+  async getAllForUserPaginated(user: User, page = 0) {
     const results = await this.fundraiserModel.find({ createdBy: user.userId });
     const pages = [];
     for (let i = 0; i < results.length; i += this.CHUNK_SIZE) {
