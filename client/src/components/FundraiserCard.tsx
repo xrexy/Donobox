@@ -62,14 +62,15 @@ export const FundraiserCard: React.FC<Props> = ({ fundraiser }) => {
         p="md"
         radius="md"
         key={fundraiser.title}
-        style={{ width: 400 }}
+        style={{ width: 375 }}
       >
         <Group position="apart">
           <Text
             size="xs"
             color="dimmed"
             className={classes.title}
-            onClick={() => navigate(`/fundraisers/${fundraiser.fundraiserId}`)}
+            component="a"
+            href={`/fundraisers/${fundraiser.fundraiserId}`}
             style={{ maxWidth: '60%' }}
           >
             {fundraiser.title}
