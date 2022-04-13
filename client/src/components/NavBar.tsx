@@ -24,17 +24,7 @@ import { ThemeToggler } from './ThemeToggler';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-
-  userControl: {
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    flexWrap: 'wrap',
-    width: '100%',
-    padding: theme.spacing.md,
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+    paddingTop: 0,
   },
 
   section: {
@@ -116,6 +106,7 @@ const useStyles = createStyles((theme) => ({
     paddingLeft: theme.spacing.md - 6,
     paddingRight: theme.spacing.md - 6,
     paddingBottom: theme.spacing.md,
+    maxWidth: 275,
     position: 'relative',
   },
 
@@ -130,10 +121,9 @@ const useStyles = createStyles((theme) => ({
     padding: `8px ${theme.spacing.xs}px`,
     textDecoration: 'none',
     borderRadius: theme.radius.sm,
-    fontSize: theme.fontSizes.xs,
-    textOverflow: 'ellipsis',
     overflow: 'hidden',
-    lineHeight: 1,
+    textOverflow: 'ellipsis',
+    fontSize: theme.fontSizes.xs,
     fontWeight: 500,
 
     color:
@@ -147,25 +137,6 @@ const useStyles = createStyles((theme) => ({
           ? theme.colors.dark[6]
           : theme.colors.gray[0],
       color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-    },
-  },
-
-  footer: {
-    borderTop: `1px solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
-    paddingTop: theme.spacing.md,
-  },
-
-  control: {
-    '@media (max-width: 520px)': {
-      height: 42,
-      fontSize: theme.fontSizes.md,
-
-      '&:not(:first-of-type)': {
-        marginTop: theme.spacing.md,
-        marginLeft: 0,
-      },
     },
   },
 }));
@@ -228,91 +199,78 @@ export function NavBar() {
       pb="md"
       className={classes.navbar}
     >
-      <di>
-        <TextInput
-          placeholder="Search"
-          size="xs"
-          mt="xl"
-          icon={<Search size={12} />}
-          rightSectionWidth={70}
-          rightSection={<Code className={classes.searchCode}>Ctrl + K</Code>}
-          styles={{
-            rightSection: { pointerEvents: 'none' },
-            input: {
-              border: `${
-                theme.colorScheme === 'light'
-                  ? `1px solid ${theme.colors.gray[2]}`
-                  : 'none'
-              }`,
-            },
-          }}
-          onClick={() => spotlight.openSpotlight()}
-          mb="sm"
-          readOnly
-        />
+      <TextInput
+        placeholder="Search"
+        size="xs"
+        mt="xl"
+        icon={<Search size={12} />}
+        rightSectionWidth={70}
+        rightSection={<Code className={classes.searchCode}>Ctrl + K</Code>}
+        styles={{
+          rightSection: { pointerEvents: 'none' },
+          input: {
+            border: `${
+              theme.colorScheme === 'light'
+                ? `1px solid ${theme.colors.gray[2]}`
+                : 'none'
+            }`,
+          },
+        }}
+        onClick={() => spotlight.openSpotlight()}
+        mb="sm"
+        readOnly
+      />
 
-        <Navbar.Section className={classes.section}>
-          <div className={classes.mainLinks}>{mainLinks}</div>
-        </Navbar.Section>
+      <Navbar.Section className={classes.section}>
+        <div className={classes.mainLinks}>{mainLinks}</div>
+      </Navbar.Section>
 
-        <Navbar.Section
-          className={classes.section}
-          style={{ flexGrow: 1 }}
-        >
-          <Group className={classes.collectionsHeader} position="apart">
-            <Text size="xs" weight={500} color="dimmed">
-              My fundraisers
-            </Text>
-            <Tooltip
-              label={`${user ? 'New fundraiser' : 'Login'}`}
-              withArrow
-              position="right"
-              onClick={() =>
-                navigate(`${user ? '/fundraisers/modify' : '/login'}`)
-              }
-            >
-              <ActionIcon variant="default" size={18}>
-                <Plus size={12} />
-              </ActionIcon>
-            </Tooltip>
-          </Group>
-
-          <ScrollArea
-            style={{ height: '100%' }}
-            className={classes.collections}
+      <Navbar.Section grow className={classes.section} component={ScrollArea}>
+        <Group className={classes.collectionsHeader} position="apart">
+          <Text size="xs" weight={500} color="dimmed">
+            My fundraisers
+          </Text>
+          <Tooltip
+            label={`${user ? 'New fundraiser' : 'Login'}`}
+            withArrow
+            position="right"
+            onClick={() =>
+              navigate(`${user ? '/fundraisers/modify' : '/login'}`)
+            }
           >
-            {user ? (
-              <>
-                {data?.data?.map((fundraiser) => (
-                  <a
-                    href="/"
-                    onClick={(event) => {
-                      event.preventDefault();
+            <ActionIcon variant="default" size={18}>
+              <Plus size={12} />
+            </ActionIcon>
+          </Tooltip>
+        </Group>
 
-                      navigate(`/fundraisers/${fundraiser.fundraiserId}`);
-                    }}
-                    key={fundraiser.fundraiserId}
-                    className={classes.collectionLink}
-                  >
-                    {fundraiser.title}
-                  </a>
-                ))}
-              </>
-            ) : (
-              <a
-                href="/"
-                onClick={(event) => event.preventDefault()}
-                key="no__user"
-                className={classes.collectionLink}
-              >
-                <span style={{ marginRight: 9, fontSize: 16 }}>😅</span> Please
-                login to continue
-              </a>
-            )}
-          </ScrollArea>
-        </Navbar.Section>
-      </di>
-      <Navbar.Section className={classes.footer}>
+        <div className={classes.collections}>
+          {user ? (
+            <>
+              {data?.data?.map((fundraiser) => (
+                <a
+                  href={`/fundraisers/${fundraiser.fundraiserId}`}
+                  key={fundraiser.fundraiserId}
+                  className={classes.collectionLink}
+                >
+                  {fundraiser.title}
+                </a>
+              ))}
+            </>
+          ) : (
+            <a
+              href="/"
+              onClick={(event) => event.preventDefault()}
+              key="no__user"
+              className={classes.collectionLink}
+            >
+              <span style={{ marginRight: 9, fontSize: 16 }}>😅</span> Please
+              login to continue
+            </a>
+          )}
+        </div>
+      </Navbar.Section>
+      <Navbar.Section>
         <ThemeToggler />
       </Navbar.Section>
     </Navbar>
