@@ -129,7 +129,7 @@ export const FundraiserCard: React.FC<Props> = ({ fundraiser }) => {
             className={classes.title}
             component="a"
             href={`/fundraisers/${fundraiser.fundraiserId}`}
-            style={{ maxWidth: '60%' }}
+            style={{ maxWidth: '60%', whiteSpace: 'nowrap' }}
           >
             {fundraiser.title}
           </Text>
