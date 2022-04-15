@@ -19,19 +19,12 @@ export class FundraisersService {
   ) {}
 
   create(user: User, data: CreateFundraiserInput): Promise<Fundraiser> {
-    this.fundraiserModel.create({
-      ...data,
-      title: data.title,
-      fundraiserId: uuidv4(),
-      createdBy: user.userId,
-      createdOn: new Date().toDateString(),
-      raised: 0.0,
-    });
+    const date = new Date();
     return this.fundraiserModel.create({
       ...data,
       fundraiserId: uuidv4(),
       createdBy: user.userId,
-      createdOn: new Date().toDateString(),
+      createdOn: `${date.toDateString()} ${date.getHours()}:${date.getMinutes()}`,
       raised: 0.0,
     });
   }
@@ -69,8 +62,6 @@ export class FundraisersService {
     for (let i = 0; i < results.length; i += this.BROWSE_CHUNK_SIZE) {
       pages.push(results.slice(i, i + this.BROWSE_CHUNK_SIZE));
     }
-
-    console.log(pages);
 
     return {
       data: pages[page],

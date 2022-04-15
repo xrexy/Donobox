@@ -14,6 +14,7 @@ export const Shell: React.FC<Props> = ({ children }) => (
             : theme.colors.gray[0],
       },
     })}
+    fixed
     navbar={<NavBar />}
   >
     {children}

@@ -56,7 +56,7 @@ export function UserMenu() {
           </Menu.Item>
           <Menu.Item
             icon={<UserPlus size={14} />}
-            onClick={() => navigate('/login')}
+            onClick={() => navigate('/register')}
           >
             Register
           </Menu.Item>

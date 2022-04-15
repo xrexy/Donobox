@@ -17,6 +17,13 @@ interface Props {
   fundraiser: Fundraiser;
 }
 
+interface ModalProps extends Props {
+  accessToken: string | undefined;
+
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 const useStyles = createStyles((theme) => ({
   root: {
     padding: theme.spacing.xl * 1.5,
@@ -48,10 +55,61 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export const FundraiserCard: React.FC<Props> = ({ fundraiser }) => {
-  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
-  const { accessToken } = useContext(AppContext);
+const DeleteModal: React.FC<ModalProps> = ({
+  fundraiser,
+  accessToken,
+  isOpen,
+  setIsOpen,
+}) => {
   const theme = useMantineTheme();
+
+  return (
+    <Modal
+      opened={isOpen}
+      onClose={() => setIsOpen(false)}
+      centered
+      size="lg"
+      transition="fade"
+      title="Are you sure?"
+    >
+      <Text>
+        Are you sure you want to delete {fundraiser.title}? This CAN NOT be
+        undone and all of your raised money will be lost.
+      </Text>
+
+      <Group
+        style={{
+          borderTop: `1px solid ${
+            theme.colorScheme === 'dark'
+              ? theme.colors.dark[4]
+              : theme.colors.gray[3]
+          }`,
+        }}
+        mt={10}
+        pt={10}
+      >
+        <Button
+          color="red"
+          onClick={() => {
+            deleteFundraiser({
+              accessToken: accessToken || '',
+              fundraiserId: fundraiser.fundraiserId,
+            }).finally(() => window.location.reload());
+          }}
+        >
+          Yes, Delete
+        </Button>
+        <Button color="gray" onClick={() => setIsOpen(false)}>
+          Cancel
+        </Button>
+      </Group>
+    </Modal>
+  );
+};
+export const FundraiserCard: React.FC<Props> = ({ fundraiser }) => {
+  const { accessToken, user } = useContext(AppContext);
+  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
+
   const { classes } = useStyles();
   const navigate = useNavigate();
 
@@ -77,34 +135,51 @@ export const FundraiserCard: React.FC<Props> = ({ fundraiser }) => {
           </Text>
 
           <Group spacing={7}>
-            <Badge
-              size="sm"
-              color="red"
-              variant="gradient"
-              gradient={{ from: 'orange', to: 'red', deg: 20 }}
-              className={classes.badge}
-              onClick={() => setDeleteModalIsOpen(true)}
-            >
-              Delete
-            </Badge>
-            <Badge
-              size="sm"
-              color="cyan"
-              variant="gradient"
-              gradient={{ from: 'cyan', to: 'teal', deg: 20 }}
-              className={classes.badge}
-              onClick={() =>
-                navigate('/fundraisers/modify', {
-                  state: {
-                    title: fundraiser.title,
-                    content: fundraiser.content,
-                    fundraiserId: fundraiser.fundraiserId,
-                  },
-                })
-              }
-            >
-              Edit
-            </Badge>
+            {user && fundraiser.createdBy === user.userId ? (
+              <>
+                <Badge
+                  size="sm"
+                  color="red"
+                  variant="gradient"
+                  gradient={{ from: 'orange', to: 'red', deg: 20 }}
+                  className={classes.badge}
+                  onClick={() => setDeleteModalIsOpen(true)}
+                >
+                  Delete
+                </Badge>
+                <Badge
+                  size="sm"
+                  color="cyan"
+                  variant="gradient"
+                  gradient={{ from: 'cyan', to: 'teal', deg: 20 }}
+                  className={classes.badge}
+                  onClick={() =>
+                    navigate('/fundraisers/modify', {
+                      state: {
+                        title: fundraiser.title,
+                        content: fundraiser.content,
+                        fundraiserId: fundraiser.fundraiserId,
+                      },
+                    })
+                  }
+                >
+                  Edit
+                </Badge>
+              </>
+            ) : (
+              <Badge
+                size="sm"
+                color="cyan"
+                variant="gradient"
+                gradient={{ from: 'cyan', to: 'teal', deg: 20 }}
+                className={classes.badge}
+                onClick={() =>
+                  navigate(`/fundraisers/${fundraiser.fundraiserId}`)
+                }
+              >
+                View
+              </Badge>
+            )}
           </Group>
         </Group>
 
@@ -117,46 +192,12 @@ export const FundraiserCard: React.FC<Props> = ({ fundraiser }) => {
         </Text>
       </Paper>
 
-      <Modal
-        opened={deleteModalIsOpen}
-        onClose={() => setDeleteModalIsOpen(false)}
-        centered
-        size="lg"
-        transition="fade"
-        title="Are you sure?"
-      >
-        <Text>
-          Are you sure you want to delete {fundraiser.title}? This CAN NOT be
-          undone and all of your raised money will be lost.
-        </Text>
-
-        <Group
-          style={{
-            borderTop: `1px solid ${
-              theme.colorScheme === 'dark'
-                ? theme.colors.dark[4]
-                : theme.colors.gray[3]
-            }`,
-          }}
-          mt={10}
-          pt={10}
-        >
-          <Button
-            color="red"
-            onClick={() => {
-              deleteFundraiser({
-                accessToken: accessToken || '',
-                fundraiserId: fundraiser.fundraiserId,
-              }).finally(() => window.location.reload());
-            }}
-          >
-            Yes, Delete
-          </Button>
-          <Button color="gray" onClick={() => setDeleteModalIsOpen(false)}>
-            Cancel
-          </Button>
-        </Group>
-      </Modal>
+      <DeleteModal
+        isOpen={deleteModalIsOpen}
+        setIsOpen={setDeleteModalIsOpen}
+        accessToken={accessToken}
+        fundraiser={fundraiser}
+      />
     </>
   );
 };

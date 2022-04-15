@@ -125,6 +125,7 @@ const useStyles = createStyles((theme) => ({
     textOverflow: 'ellipsis',
     fontSize: theme.fontSizes.xs,
     fontWeight: 500,
+    whiteSpace: 'nowrap',
 
     color:
       theme.colorScheme === 'dark'

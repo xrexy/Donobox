@@ -57,11 +57,9 @@ export class FundraisersController {
   }
 
   @UseGuards(GqlAuthGuard)
-  @Get('/for-user/infinite')
-  getAllUserFundraisersPaginatedNew(
-    @Query() params: GetFundraiserPaginatedInput,
-  ) {
-    return this.fundraisersService.getAllForUserInfinite(params.page);
+  @Get('/for-all/paginated')
+  getAllFundraisersPaginatedNew(@Query() params: GetFundraiserPaginatedInput) {
+    return this.fundraisersService.getAllPaginated(params.page);
   }
 
   @UseGuards(GqlAuthGuard)
