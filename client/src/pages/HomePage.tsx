@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { PaginatedFundraisers } from '../components/PaginatedFundraisers';
+import { PaginatedFundraisers } from '../components/fundraisers/PaginatedFundraisers';
 import { HeroText } from '../components/HeroText';
 import { Shell } from '../components/Shell';
 import { AppContext } from '../utils/AppContext';

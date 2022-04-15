@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import React, { useContext, useState } from 'react';
 import { UseQueryResult } from 'react-query';
 import { MoodConfuzed } from 'tabler-icons-react';
-import { AppContext } from '../utils/AppContext';
+import { AppContext } from '../../utils/AppContext';
 import { FundraiserCard } from './FundraiserCard';
 
 const useStyles = createStyles((theme) => ({

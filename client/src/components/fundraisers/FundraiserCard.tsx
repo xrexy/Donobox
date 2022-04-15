@@ -10,8 +10,8 @@ import {
 } from '@mantine/core';
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { deleteFundraiser } from '../utils/api';
-import { AppContext } from '../utils/AppContext';
+import { deleteFundraiser } from '../../utils/api';
+import { AppContext } from '../../utils/AppContext';
 
 interface Props {
   fundraiser: Fundraiser;
