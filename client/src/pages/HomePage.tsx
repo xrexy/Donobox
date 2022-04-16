@@ -10,7 +10,6 @@ import { useFetchUserFundraisersPaginated } from '../utils/hooks/fundraisers/use
 interface Props {}
 
 export const HomePage: React.FC<Props> = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { user } = useContext(AppContext);
   return (
     <Shell>

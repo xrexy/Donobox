@@ -1,11 +1,16 @@
-import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core';
+import {
+  ColorScheme,
+  ColorSchemeProvider,
+  MantineProvider,
+} from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { SpotlightProvider } from '@mantine/spotlight';
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { AccessPoint, Book, Home, Search } from 'tabler-icons-react';
 
 import Compose from './components/Compose';
+import { ViewFundraiser } from './components/fundraisers/ViewFundraiser';
 import { ModifyFundraiserPage } from './pages/fundraisers/Modify';
 import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
@@ -113,7 +118,15 @@ export function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
-          <Route path="/fundraisers/modify" element={<ModifyFundraiserPage />} />
+          <Route
+            path="/fundraisers/modify"
+            element={<ModifyFundraiserPage />}
+          />
+          <Route
+            path="/fundraisers/:fundraiserId"
+            element={<ViewFundraiser />}
+          />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </AppContext.Provider>
     </Compose>

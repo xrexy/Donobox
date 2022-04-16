@@ -12,6 +12,7 @@ import {
 import { GqlAuthGuard } from 'src/auth/guards/gql-auth.guard';
 import { CurrentUser } from 'src/utils/current-user.decorator';
 import { User } from 'src/utils/graphql/models/user.model';
+import { GetFundraiserArgs } from './dto/args/get-fundraiser.arg';
 import { CreateFundraiserInput } from './dto/inputs/create-fundraiser.input';
 
 import { DeleteFundraiserInput } from './dto/inputs/delete-fundraiser.input';
@@ -25,6 +26,11 @@ export class FundraisersController {
   private readonly MAX_POSTS = 20;
 
   constructor(private readonly fundraisersService: FundraisersService) {}
+
+  @Get(':fundraiserId')
+  getUser(@Param() params: GetFundraiserArgs) {
+    return this.fundraisersService.getFundraiser(params.fundraiserId);
+  }
 
   @UseGuards(GqlAuthGuard)
   @Post('create')

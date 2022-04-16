@@ -1,3 +1,6 @@
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+
 export const capitalize = (msg: string) =>
   msg.toString().charAt(0).toUpperCase() + msg.toString().slice(1);
 
@@ -25,3 +28,9 @@ export const handleApi400Error = (
       setTimeout(() => set([]), errorTimeout);
   }
 };
+
+export function useQuery() {
+  const { search } = useLocation();
+
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}

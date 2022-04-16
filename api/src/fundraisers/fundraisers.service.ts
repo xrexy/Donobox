@@ -18,6 +18,9 @@ export class FundraisersService {
     @InjectModel(Fundraiser.name) private fundraiserModel: Model<Fundraiser>,
   ) {}
 
+  getFundraiser = (fundraiserId: string) =>
+    this.fundraiserModel.findOne<Fundraiser>({ fundraiserId });
+
   create(user: User, data: CreateFundraiserInput): Promise<Fundraiser> {
     const date = new Date();
     return this.fundraiserModel.create({

@@ -46,7 +46,11 @@ export const updateFundraiser = (data: {
     }
   );
 
-export const getUser = (userId: string) => apiClient.get(`/users/${userId}`);
+export const getUser = (userId: string) =>
+  apiClient.get<User | undefined>(`/users/${userId}`);
+
+export const getFundraiser = (fundraiserId: string) =>
+  apiClient.get<Fundraiser | undefined>(`/fundraisers/${fundraiserId}`);
 
 export const deleteFundraiser = (data: {
   fundraiserId: string;

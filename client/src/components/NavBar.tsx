@@ -248,15 +248,16 @@ export function NavBar() {
         <div className={classes.collections}>
           {user ? (
             <>
-              {data?.data?.map((fundraiser) => (
-                <a
-                  href={`/fundraisers/${fundraiser.fundraiserId}`}
-                  key={fundraiser.fundraiserId}
-                  className={classes.collectionLink}
-                >
-                  {fundraiser.title}
-                </a>
-              ))}
+              {data?.data &&
+                data.data?.map((fundraiser) => (
+                  <a
+                    href={`/fundraisers/${fundraiser.fundraiserId}`}
+                    key={fundraiser.fundraiserId}
+                    className={classes.collectionLink}
+                  >
+                    {fundraiser.title}
+                  </a>
+                ))}
             </>
           ) : (
             <a
