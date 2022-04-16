@@ -1,20 +1,19 @@
 import {
-  Controller,
-  UseGuards,
-  Post,
   Body,
-  Get,
-  Query,
+  Controller,
   Delete,
+  Get,
   Param,
-  Request,
+  Post,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guards/gql-auth.guard';
 import { CurrentUser } from 'src/utils/current-user.decorator';
 import { User } from 'src/utils/graphql/models/user.model';
+
 import { GetFundraiserArgs } from './dto/args/get-fundraiser.arg';
 import { CreateFundraiserInput } from './dto/inputs/create-fundraiser.input';
-
 import { DeleteFundraiserInput } from './dto/inputs/delete-fundraiser.input';
 import { GetFundraiserPaginatedInput } from './dto/inputs/get-fundraiser-paginated.input';
 import { GetFundraiserInput } from './dto/inputs/get-fundraiser.input';
@@ -54,7 +53,13 @@ export class FundraisersController {
   }
 
   @UseGuards(GqlAuthGuard)
-  @Get('/for-user/paginated')
+  @Get('for-user/all')
+  getAllUserFundraisers(@CurrentUser() user: User) {
+    return this.fundraisersService.getAllForUser(user);
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Get('for-user/paginated')
   getAllUserFundraisersPaginated(
     @CurrentUser() user: User,
     @Query() params: GetFundraiserInput,
@@ -63,15 +68,9 @@ export class FundraisersController {
   }
 
   @UseGuards(GqlAuthGuard)
-  @Get('/for-all/paginated')
+  @Get('for-all/paginated')
   getAllFundraisersPaginatedNew(@Query() params: GetFundraiserPaginatedInput) {
     return this.fundraisersService.getAllPaginated(params.page);
-  }
-
-  @UseGuards(GqlAuthGuard)
-  @Get('/for-user')
-  getAllUserFundraisers(@CurrentUser() user: User) {
-    return this.fundraisersService.getAllForUser(user);
   }
 
   @UseGuards(GqlAuthGuard)

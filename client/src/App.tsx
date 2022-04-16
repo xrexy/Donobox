@@ -16,7 +16,7 @@ import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { AppContext } from './utils/AppContext';
-import { useFetchUser } from './utils/hooks/user/user.hooks';
+import { useFetchUser } from './utils/hooks/user/user-status.hooks';
 
 const defaultTheme: ColorScheme = 'dark';
 

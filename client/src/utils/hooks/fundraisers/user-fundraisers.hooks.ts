@@ -11,7 +11,7 @@ export const useFetchUserFundraisers = (
   return useQuery(
     ['userFundraisers', accessToken],
     () =>
-      apiClient.get('fundraisers/for-user', {
+      apiClient.get('fundraisers/for-user/all', {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
