@@ -106,6 +106,50 @@ const DeleteModal: React.FC<ModalProps> = ({
     </Modal>
   );
 };
+
+const ControlButtons: React.FC<
+  {
+    setDeleteModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    classes: Record<any, string>;
+  } & Props
+> = ({ setDeleteModalIsOpen, fundraiser, classes }) => {
+  const navigate = useNavigate();
+
+  return (
+    <>
+      <Badge
+        size="sm"
+        color="red"
+        variant="gradient"
+        gradient={{ from: 'orange', to: 'red', deg: 20 }}
+        className={classes.badge}
+        onClick={() => setDeleteModalIsOpen(true)}
+      >
+        Delete
+      </Badge>
+      <Badge
+        size="sm"
+        color="cyan"
+        variant="gradient"
+        gradient={{ from: 'cyan', to: 'teal', deg: 20 }}
+        className={classes.badge}
+        onClick={() =>
+          navigate('/fundraisers/modify', {
+            state: {
+              title: fundraiser.title,
+              content: fundraiser.content,
+              fundraiserId: fundraiser.fundraiserId,
+              goal: fundraiser.goal,
+            },
+          })
+        }
+      >
+        Edit
+      </Badge>
+    </>
+  );
+};
+
 export const FundraiserCard: React.FC<Props> = ({ fundraiser }) => {
   const { accessToken, user } = useContext(AppContext);
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
@@ -137,35 +181,11 @@ export const FundraiserCard: React.FC<Props> = ({ fundraiser }) => {
           <Group spacing={7}>
             {user && fundraiser.createdBy === user.email ? (
               <>
-                <Badge
-                  size="sm"
-                  color="red"
-                  variant="gradient"
-                  gradient={{ from: 'orange', to: 'red', deg: 20 }}
-                  className={classes.badge}
-                  onClick={() => setDeleteModalIsOpen(true)}
-                >
-                  Delete
-                </Badge>
-                <Badge
-                  size="sm"
-                  color="cyan"
-                  variant="gradient"
-                  gradient={{ from: 'cyan', to: 'teal', deg: 20 }}
-                  className={classes.badge}
-                  onClick={() =>
-                    navigate('/fundraisers/modify', {
-                      state: {
-                        title: fundraiser.title,
-                        content: fundraiser.content,
-                        fundraiserId: fundraiser.fundraiserId,
-                        goal: fundraiser.goal,
-                      },
-                    })
-                  }
-                >
-                  Edit
-                </Badge>
+                <ControlButtons
+                  setDeleteModalIsOpen={setDeleteModalIsOpen}
+                  classes={classes}
+                  fundraiser={fundraiser}
+                />
               </>
             ) : (
               <Badge
