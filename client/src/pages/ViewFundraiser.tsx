@@ -53,7 +53,7 @@ export const ViewFundraiser: React.FC<Props> = () => {
       <Grid>
         <Column xs={8}>
           {fundraiser ? (
-            <FundraiserContent content={fundraiser.content} />
+            <FundraiserContent fundraiser={fundraiser} />
           ) : (
             <Text>There is no fundraiser with that ID</Text>
           )}

@@ -25,6 +25,10 @@ export class Fundraiser {
   content: string;
 
   @Field()
+  @Prop({ minlength: 10 })
+  description: string;
+
+  @Field()
   @Prop({ min: 0, default: 0 })
   raised: number;
 

@@ -21,6 +21,7 @@ type Fundraiser {
   content: String!
   createdBy: String!
   createdOn: String!
+  description: String!
   fundraiserId: String!
   goal: Float!
   raised: Float!
