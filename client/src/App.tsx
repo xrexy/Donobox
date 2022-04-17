@@ -34,10 +34,10 @@ const primitiveActions: SpotlightActionPrimitive[] = [
     path: '/dashboard',
   },
   {
-    title: 'Documentation',
-    description: 'Visit documentation to lean more about all features',
+    title: 'Source Code',
+    description: 'Visit our source code to learn how we work',
     icon: <Book size={18} />,
-    path: '/documentation',
+    path: 'https://github.com/xrexy/Donobox',
   },
 ];
 
@@ -94,7 +94,13 @@ export function App() {
           options: {
             actions: primitiveActions.map((action) => ({
               ...action,
-              onTrigger: () => navigate(action.path),
+              onTrigger: () => {
+                if (action.path.startsWith('http')) {
+                  window.location.href = action.path;
+                } else {
+                  navigate(action.path);
+                }
+              },
             })),
             searchIcon: <Search size={18} />,
             searchPlaceholder: 'Search...',
