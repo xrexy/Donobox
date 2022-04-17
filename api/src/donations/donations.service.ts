@@ -16,20 +16,20 @@ export class DonationsService {
     private readonly usersService: UsersService,
   ) {}
 
-  async createDonation(
+  async create(
     user: User,
     createDonationInput: CreateDonationInput,
   ): Promise<Donation> {
     const donation: Donation = {
       ...createDonationInput,
-      sentBy: user.userId,
+      sentBy: user.email,
       donationId: uuidv4(),
     };
 
-    const _user = await this.usersService.getUser({ userId: user.userId });
+    const _user = await this.usersService.getUser({ userId: user.email });
     if (_user) {
       await this.usersService.updateUser({
-        userId: user.userId,
+        userId: user.email,
         tokens: _user.tokens + createDonationInput.amount / 5,
       });
     }
@@ -41,7 +41,7 @@ export class DonationsService {
     return this.donationModel.findOne({ userId: args.donationId });
   }
 
-  async getUserDonations(userId: string): Promise<Donation[]> {
-    return this.donationModel.find({ sentBy: userId });
+  async getUserDonations(email: string): Promise<Donation[]> {
+    return this.donationModel.find({ sentBy: email });
   }
 }
