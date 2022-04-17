@@ -159,6 +159,7 @@ export const FundraiserCard: React.FC<Props> = ({ fundraiser }) => {
                         title: fundraiser.title,
                         content: fundraiser.content,
                         fundraiserId: fundraiser.fundraiserId,
+                        goal: fundraiser.goal,
                       },
                     })
                   }

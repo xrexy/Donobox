@@ -35,6 +35,7 @@ export const updateFundraiser = (data: {
   title: string;
   fundraiserId: string;
   accessToken: string;
+  goal: number;
 }) =>
   apiClient.post(
     '/fundraisers/update',

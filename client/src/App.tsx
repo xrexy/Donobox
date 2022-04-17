@@ -11,7 +11,7 @@ import { AccessPoint, Book, Home, Search } from 'tabler-icons-react';
 
 import Compose from './components/Compose';
 import { ViewFundraiser } from './pages/ViewFundraiser';
-import { ModifyFundraiserPage } from './pages/Modify';
+import { ModifyFundraiserPage } from './pages/ModifyFundraiser';
 import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';

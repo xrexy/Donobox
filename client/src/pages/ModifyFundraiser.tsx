@@ -3,6 +3,7 @@ import {
   Container,
   createStyles,
   InputWrapper,
+  NativeSelect,
   Text,
   TextInput,
   Title,
@@ -55,6 +56,7 @@ type LocationState = {
   title: string;
   content: string;
   fundraiserId: string;
+  goal: number;
 };
 
 const schema = z.object({
@@ -69,6 +71,16 @@ const schema = z.object({
     .max(500, { message: "Content can't be longer than 500 characters" }),
 });
 
+// value == multiplicator (BGN as base)
+const currencies: { value: string; label: string }[] = [
+  { value: '1', label: '🇧🇬 BGN' },
+  { value: '0.51', label: '🇪🇺 EUR' },
+  { value: '0.55', label: '🇺🇸 USD' },
+  { value: '0.7', label: '🇨🇦 CAD' },
+  { value: '0.42', label: '🇬🇧 GBP' },
+  { value: '0.75', label: '🇦🇺 AUD' },
+];
+
 export const ModifyFundraiserPage: React.FC<Props> = () => {
   const { accessToken } = useContext(AppContext);
   const { classes } = useStyles();
@@ -79,12 +91,14 @@ export const ModifyFundraiserPage: React.FC<Props> = () => {
   const notiManager = useNotifications();
 
   const [globalFormErrors, setGlobalFormErrors] = useState<string[]>();
+  const [currencyMulti, setCurrencyMulti] = useState('1');
 
   const form = useForm({
     schema: zodResolver(schema),
     initialValues: {
       title: (state as LocationState)?.title || '',
       content: (state as LocationState)?.content || '',
+      goal: (state as LocationState)?.goal || 10,
     },
   });
 
@@ -118,6 +132,8 @@ export const ModifyFundraiserPage: React.FC<Props> = () => {
               updateFundraiser({
                 ...formData,
                 accessToken: accessToken || '',
+                goal:
+                  Math.round(formData.goal * Number(currencyMulti) * 1e2) / 1e2,
                 fundraiserId: (state as LocationState)?.fundraiserId,
               })
                 .then(() => {
@@ -177,6 +193,31 @@ export const ModifyFundraiserPage: React.FC<Props> = () => {
               {...form.getInputProps('content')}
             />
           </InputWrapper>
+          <TextInput
+            type="number"
+            placeholder="Must be more than 10"
+            {...form.getInputProps('goal')}
+            min={10}
+            max={100000}
+            mt="lg"
+            label="Goal amount"
+            rightSection={
+              <NativeSelect
+                data={currencies}
+                value={currencyMulti}
+                onChange={(ev) => setCurrencyMulti(ev.target.value)}
+                styles={{
+                  input: {
+                    fontWeight: 500,
+                    borderTopLeftRadius: 0,
+                    borderBottomLeftRadius: 0,
+                  },
+                }}
+              />
+            }
+            rightSectionWidth={92}
+            required
+          />
           <ul>
             {globalFormErrors?.map((err) => (
               <li key={err}>

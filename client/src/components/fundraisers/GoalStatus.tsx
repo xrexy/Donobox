@@ -1,4 +1,12 @@
-import { Badge, createStyles, Group, Paper, Progress, Text } from '@mantine/core';
+import {
+  Badge,
+  Button,
+  createStyles,
+  Group,
+  Paper,
+  Progress,
+  Text,
+} from '@mantine/core';
 import React from 'react';
 
 const useStylesGoalStatus = createStyles((theme) => ({
@@ -30,7 +38,7 @@ export const GoalStatus: React.FC<Props> = ({ fundraiser, goalCompleted }) => {
 
       <Group position="apart" mt="xs">
         <Text size="sm" color="dimmed">
-          Progress
+          Goal: {fundraiser?.goal} BGN
         </Text>
         <Text size="sm" color="dimmed">
           {Math.min(100, goalCompleted)}%
@@ -44,17 +52,17 @@ export const GoalStatus: React.FC<Props> = ({ fundraiser, goalCompleted }) => {
       />
 
       <Group position="apart" mt="md">
-        <Text size="sm">Goal: {fundraiser?.goal}</Text>
+        <Button size="xs">Donate</Button>
         {isComplete ? (
           <Badge size="sm" color="lime">
             Goal raised
           </Badge>
         ) : (
           <Badge size="sm">
-            {fundraiser?.goal && fundraiser?.raised
+            {fundraiser?.raised
               ? // eslint-disable-next-line no-unsafe-optional-chaining
                 fundraiser?.goal - fundraiser?.raised
-              : 0}{' '}
+              : fundraiser?.goal}{' '}
             left
           </Badge>
         )}
