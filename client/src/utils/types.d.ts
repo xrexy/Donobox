@@ -39,6 +39,7 @@ type Fundraiser = {
   content: string;
   raised: number;
   goal: number;
+  description: string;
 };
 
 type FundraiserResponse = {

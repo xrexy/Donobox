@@ -57,6 +57,7 @@ type LocationState = {
   content: string;
   fundraiserId: string;
   goal: number;
+  description: string;
 };
 
 const schema = z.object({
@@ -65,10 +66,15 @@ const schema = z.object({
     .nonempty({ message: "Title can't be empty" })
     .min(10, { message: 'Title must be at least 10 characters' })
     .max(50, { message: "Title can't be longer than 50 characters" }),
+  description: z
+    .string()
+    .nonempty({ message: "Description can't be empty" })
+    .min(10, { message: 'Description must be at least 10 characters' })
+    .max(100, { message: "Description can't be longer than 100 characters" }),
   content: z
     .string()
     .nonempty({ message: "Content can't be empty" })
-    .max(500, { message: "Content can't be longer than 500 characters" }),
+    .max(1000, { message: "Content can't be longer than 1000 characters" }),
 });
 
 // value == multiplicator (BGN as base)
@@ -98,6 +104,7 @@ export const ModifyFundraiserPage: React.FC<Props> = () => {
     initialValues: {
       title: (state as LocationState)?.title || '',
       content: (state as LocationState)?.content || '',
+      description: (state as LocationState)?.description || '',
       goal: (state as LocationState)?.goal || 10,
     },
   });
@@ -177,26 +184,19 @@ export const ModifyFundraiserPage: React.FC<Props> = () => {
             required
           />
 
-          <InputWrapper
-            label="Content"
-            {...form.getInputProps('content')}
+          <TextInput
+            label="Description"
+            placeholder="Tell us something about your fundraiser"
+            minLength={10}
+            maxLength={100}
             mt="lg"
+            {...form.getInputProps('description')}
             required
-          >
-            <RichTextEditor
-              controls={[
-                ['bold', 'italic', 'underline', 'link', 'image'],
-                ['unorderedList', 'h1', 'h2', 'h3'],
-                ['sup', 'sub'],
-                ['alignLeft', 'alignCenter', 'alignRight'],
-              ]}
-              onImageUpload={() => Promise.reject()}
-              {...form.getInputProps('content')}
-            />
-          </InputWrapper>
+          />
+
           <TextInput
             type="number"
-            placeholder="Must be more than 10"
+            placeholder="Goal amount must be more than 10"
             {...form.getInputProps('goal')}
             min={10}
             max={100000}
@@ -219,6 +219,25 @@ export const ModifyFundraiserPage: React.FC<Props> = () => {
             rightSectionWidth={92}
             required
           />
+
+          <InputWrapper
+            label="Content"
+            {...form.getInputProps('content')}
+            mt="lg"
+            required
+          >
+            <RichTextEditor
+              controls={[
+                ['bold', 'italic', 'underline', 'link', 'image'],
+                ['unorderedList', 'h1', 'h2', 'h3'],
+                ['sup', 'sub'],
+                ['alignLeft', 'alignCenter', 'alignRight'],
+              ]}
+              onImageUpload={() => Promise.reject()}
+              {...form.getInputProps('content')}
+            />
+          </InputWrapper>
+
           <ul>
             {globalFormErrors?.map((err) => (
               <li key={err}>

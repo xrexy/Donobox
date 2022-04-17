@@ -34,7 +34,7 @@ const useStyles = createStyles((theme) => ({
 
 export const FundraiserContent: React.FC<{
   fundraiser: Fundraiser;
-}> = ({ fundraiser: { title, content } }) => {
+}> = ({ fundraiser: { title, content, description } }) => {
   const { classes } = useStyles();
   return (
     <>
@@ -46,9 +46,7 @@ export const FundraiserContent: React.FC<{
 
       <Container size={660} p={0} className={classes.descriptionHolder}>
         <Text color="dimmed" className={classes.description}>
-          TODO as well... we love fornitewe love fornitewe love fornitewe love
-          fornitewe love fornitewe love fornitewe love fornitewe love fornitewe
-          love fornite
+          {description}
         </Text>
       </Container>
 
