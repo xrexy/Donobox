@@ -190,6 +190,7 @@ export const ModifyFundraiserPage: React.FC<Props> = () => {
                 ['sup', 'sub'],
                 ['alignLeft', 'alignCenter', 'alignRight'],
               ]}
+              onImageUpload={() => Promise.reject()}
               {...form.getInputProps('content')}
             />
           </InputWrapper>
