@@ -26,7 +26,7 @@ export class FundraisersService {
     return this.fundraiserModel.create({
       ...data,
       fundraiserId: uuidv4(),
-      createdBy: user.userId,
+      createdBy: user.email,
       createdOn: `${date.toDateString()} ${date.getHours()}:${date.getMinutes()}`,
       raised: 0.0,
     });
@@ -43,7 +43,7 @@ export class FundraisersService {
         HttpStatus.BAD_REQUEST,
       );
 
-    if (fundraiser.createdBy !== user.userId)
+    if (fundraiser.createdBy !== user.email)
       throw new HttpException(
         '[Fundraiser] createdBy and [User] userId missmatch',
         HttpStatus.BAD_REQUEST,
@@ -105,7 +105,7 @@ export class FundraisersService {
         HttpStatus.BAD_REQUEST,
       );
 
-    if (fundraiser.createdBy !== user.userId)
+    if (fundraiser.createdBy !== user.email)
       throw new HttpException(
         '[Fundraiser] createdBy and [User] userId missmatch',
         HttpStatus.BAD_REQUEST,
