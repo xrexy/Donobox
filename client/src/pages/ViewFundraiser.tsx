@@ -2,9 +2,9 @@ import { createStyles, Grid, Group, Text } from '@mantine/core';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { getFundraiser } from '../../utils/api';
-import { Shell } from '../Shell';
-import { GoalStatus } from './GoalStatus';
+import { getFundraiser } from '../utils/api';
+import { Shell } from '../components/Shell';
+import { GoalStatus } from '../components/fundraisers/GoalStatus';
 
 interface Props {}
 

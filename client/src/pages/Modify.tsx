@@ -16,10 +16,10 @@ import React, { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
-import { Shell } from '../../components/Shell';
-import { registerFundraiser, updateFundraiser } from '../../utils/api';
-import { AppContext } from '../../utils/AppContext';
-import { handleApi400Error } from '../../utils/helpers';
+import { Shell } from '../components/Shell';
+import { registerFundraiser, updateFundraiser } from '../utils/api';
+import { AppContext } from '../utils/AppContext';
+import { handleApi400Error } from '../utils/helpers';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {

@@ -1,13 +1,5 @@
-import {
-  Badge,
-  createStyles,
-  Group,
-  Paper,
-  Progress,
-  Text,
-} from '@mantine/core';
-import React, { useEffect, useState } from 'react';
-import { getUser } from '../../utils/api';
+import { Badge, createStyles, Group, Paper, Progress, Text } from '@mantine/core';
+import React from 'react';
 
 const useStylesGoalStatus = createStyles((theme) => ({
   card: {
@@ -24,12 +16,6 @@ interface Props {
 
 export const GoalStatus: React.FC<Props> = ({ fundraiser, goalCompleted }) => {
   const { classes } = useStylesGoalStatus();
-  const [postedBy, setPostedBy] = useState<User>();
-
-  useEffect(() => {
-    if (!fundraiser?.createdBy) return;
-    getUser(fundraiser?.createdBy).then((res) => setPostedBy(res.data));
-  }, [fundraiser?.createdBy]);
 
   const isComplete = (fundraiser?.raised || 0) >= (fundraiser?.goal || 0);
 
@@ -39,7 +25,7 @@ export const GoalStatus: React.FC<Props> = ({ fundraiser, goalCompleted }) => {
         {fundraiser?.title}
       </Text>
       <Text color="dimmed" align="center" size="sm">
-        Posted by {postedBy?.email}
+        Posted by {fundraiser?.createdBy}
       </Text>
 
       <Group position="apart" mt="xs">
@@ -61,7 +47,7 @@ export const GoalStatus: React.FC<Props> = ({ fundraiser, goalCompleted }) => {
         <Text size="sm">Goal: {fundraiser?.goal}</Text>
         {isComplete ? (
           <Badge size="sm" color="lime">
-            Goal raised!
+            Goal raised
           </Badge>
         ) : (
           <Badge size="sm">

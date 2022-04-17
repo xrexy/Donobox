@@ -10,8 +10,8 @@ import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { AccessPoint, Book, Home, Search } from 'tabler-icons-react';
 
 import Compose from './components/Compose';
-import { ViewFundraiser } from './components/fundraisers/ViewFundraiser';
-import { ModifyFundraiserPage } from './pages/fundraisers/Modify';
+import { ViewFundraiser } from './pages/ViewFundraiser';
+import { ModifyFundraiserPage } from './pages/Modify';
 import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
