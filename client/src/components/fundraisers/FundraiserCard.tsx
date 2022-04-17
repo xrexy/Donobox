@@ -185,7 +185,7 @@ export const FundraiserCard: React.FC<Props> = ({ fundraiser }) => {
         </Group>
 
         <Text mt={20} className={classes.value}>
-          ${fundraiser.raised || 0}
+          ${fundraiser.goal || 0}
         </Text>
 
         <Text size="xs" color="dimmed" mt={7}>
