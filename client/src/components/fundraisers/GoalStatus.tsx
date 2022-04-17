@@ -1,21 +1,5 @@
-import {
-  Badge,
-  Button,
-  createStyles,
-  Group,
-  Paper,
-  Progress,
-  Text,
-} from '@mantine/core';
-import React from 'react';
-
-const useStylesGoalStatus = createStyles((theme) => ({
-  card: {
-    position: 'relative',
-    overflow: 'hidden',
-    padding: theme.spacing.xl,
-  },
-}));
+import { Badge, Button, Group, Progress, Text } from '@mantine/core';
+import React, { useMemo } from 'react';
 
 interface Props {
   fundraiser: Fundraiser | undefined;
@@ -23,12 +7,14 @@ interface Props {
 }
 
 export const GoalStatus: React.FC<Props> = ({ fundraiser, goalCompleted }) => {
-  const { classes } = useStylesGoalStatus();
-
-  const isComplete = (fundraiser?.raised || 0) >= (fundraiser?.goal || 0);
+  const isComplete = useMemo(
+    () => (fundraiser?.raised || 0) >= (fundraiser?.goal || 0),
+    [fundraiser?.goal, fundraiser?.raised]
+  );
 
   return (
-    <Paper radius="md" withBorder className={classes.card}>
+    <>
+      {/* Gonna be wrapped with Paper in 'ViewFundraiser' */}
       <Text align="center" weight={700} style={{ lineHeight: 1 }}>
         {fundraiser?.title}
       </Text>
@@ -67,6 +53,6 @@ export const GoalStatus: React.FC<Props> = ({ fundraiser, goalCompleted }) => {
           </Badge>
         )}
       </Group>
-    </Paper>
+    </>
   );
 };
