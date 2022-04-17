@@ -135,7 +135,7 @@ export const FundraiserCard: React.FC<Props> = ({ fundraiser }) => {
           </Text>
 
           <Group spacing={7}>
-            {user && fundraiser.createdBy === user.userId ? (
+            {user && fundraiser.createdBy === user.email ? (
               <>
                 <Badge
                   size="sm"
