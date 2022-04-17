@@ -45,7 +45,7 @@ export class FundraisersService {
 
     if (fundraiser.createdBy !== user.email)
       throw new HttpException(
-        '[Fundraiser] createdBy and [User] userId missmatch',
+        '[Fundraiser] createdBy and [User] email missmatch',
         HttpStatus.BAD_REQUEST,
       );
 
@@ -76,7 +76,7 @@ export class FundraisersService {
 
   async getAllForUserPaginated(user: User, page = 0) {
     const results = await this.fundraiserModel
-      .find({ createdBy: user.userId })
+      .find({ createdBy: user.email })
       .sort({ createdOn: -1 });
     const pages = [];
     for (let i = 0; i < results.length; i += this.CHUNK_SIZE) {
@@ -92,7 +92,7 @@ export class FundraisersService {
   }
 
   getAllForUser = (user: User) =>
-    this.fundraiserModel.find({ createdBy: user.userId });
+    this.fundraiserModel.find({ createdBy: user.email });
 
   async deleteFundraiser(user: User, data: DeleteFundraiserInput) {
     const fundraiser = await this.fundraiserModel.findOne({
@@ -107,7 +107,7 @@ export class FundraisersService {
 
     if (fundraiser.createdBy !== user.email)
       throw new HttpException(
-        '[Fundraiser] createdBy and [User] userId missmatch',
+        '[Fundraiser] createdBy and [User] email missmatch',
         HttpStatus.BAD_REQUEST,
       );
 
