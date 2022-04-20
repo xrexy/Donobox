@@ -19,6 +19,7 @@ export const registerFundraiser = (data: {
   content: string;
   title: string;
   accessToken: string;
+  goal: number;
 }) =>
   apiClient.post(
     '/fundraisers/create',

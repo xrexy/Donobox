@@ -3,7 +3,6 @@ import {
   Container,
   createStyles,
   InputWrapper,
-  NativeSelect,
   Text,
   TextInput,
   Title,
@@ -17,6 +16,7 @@ import React, { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
+import { CurrencyInput } from '../components/CurrencyInput';
 import { Shell } from '../components/Shell';
 import { registerFundraiser, updateFundraiser } from '../utils/api';
 import { AppContext } from '../utils/AppContext';
@@ -76,16 +76,6 @@ const schema = z.object({
     .nonempty({ message: "Content can't be empty" })
     .max(1000, { message: "Content can't be longer than 1000 characters" }),
 });
-
-// value == multiplicator (BGN as base)
-const currencies: { value: string; label: string }[] = [
-  { value: '1', label: '🇧🇬 BGN' },
-  { value: '0.51', label: '🇪🇺 EUR' },
-  { value: '0.55', label: '🇺🇸 USD' },
-  { value: '0.7', label: '🇨🇦 CAD' },
-  { value: '0.42', label: '🇬🇧 GBP' },
-  { value: '0.75', label: '🇦🇺 AUD' },
-];
 
 export const ModifyFundraiserPage: React.FC<Props> = () => {
   const { accessToken } = useContext(AppContext);
@@ -159,6 +149,8 @@ export const ModifyFundraiserPage: React.FC<Props> = () => {
               registerFundraiser({
                 ...formData,
                 accessToken: accessToken || '',
+                goal:
+                  Math.round(formData.goal * Number(currencyMulti) * 1e2) / 1e2,
               })
                 .then(() => {
                   notiManager.showNotification({
@@ -194,30 +186,14 @@ export const ModifyFundraiserPage: React.FC<Props> = () => {
             required
           />
 
-          <TextInput
-            type="number"
-            placeholder="Goal amount must be more than 10"
-            {...form.getInputProps('goal')}
-            min={10}
+          <CurrencyInput
+            inputName="goal"
+            form={form}
             max={100000}
-            mt="lg"
-            label="Goal amount"
-            rightSection={
-              <NativeSelect
-                data={currencies}
-                value={currencyMulti}
-                onChange={(ev) => setCurrencyMulti(ev.target.value)}
-                styles={{
-                  input: {
-                    fontWeight: 500,
-                    borderTopLeftRadius: 0,
-                    borderBottomLeftRadius: 0,
-                  },
-                }}
-              />
-            }
-            rightSectionWidth={92}
-            required
+            min={10}
+            multipler={currencyMulti}
+            setMultiplier={setCurrencyMulti}
+            placeholder="Goal amount must be more than 10"
           />
 
           <InputWrapper

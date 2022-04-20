@@ -1,10 +1,21 @@
-import { Badge, Button, Group, Progress, Text } from '@mantine/core';
-import React, { useMemo } from 'react';
+import { Badge, Button, Group, Modal, Progress, Text } from '@mantine/core';
+import React, { useMemo, useState } from 'react';
 
 interface Props {
   fundraiser: Fundraiser | undefined;
   goalCompleted: number;
 }
+
+interface ModalProps {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const DonateModal: React.FC<ModalProps> = ({ isOpen, setIsOpen }) => (
+  <Modal opened={isOpen} onClose={() => setIsOpen(false)}>
+    wow
+  </Modal>
+);
 
 export const GoalStatus: React.FC<Props> = ({ fundraiser, goalCompleted }) => {
   const isComplete = useMemo(
@@ -12,8 +23,15 @@ export const GoalStatus: React.FC<Props> = ({ fundraiser, goalCompleted }) => {
     [fundraiser?.goal, fundraiser?.raised]
   );
 
+  const [donateModalIsOpen, setDonateModalIsOpen] = useState(false);
+
   return (
     <>
+      <DonateModal
+        isOpen={donateModalIsOpen}
+        setIsOpen={setDonateModalIsOpen}
+      />
+
       {/* Gonna be wrapped with Paper in 'ViewFundraiser' */}
       <Text align="center" weight={700} style={{ lineHeight: 1 }}>
         {fundraiser?.title}
@@ -38,19 +56,23 @@ export const GoalStatus: React.FC<Props> = ({ fundraiser, goalCompleted }) => {
       />
 
       <Group position="apart" mt="md">
-        <Button size="xs">Donate</Button>
         {isComplete ? (
           <Badge size="sm" color="lime">
             Goal raised
           </Badge>
         ) : (
-          <Badge size="sm">
-            {fundraiser?.raised
-              ? // eslint-disable-next-line no-unsafe-optional-chaining
-                fundraiser?.goal - fundraiser?.raised
-              : fundraiser?.goal}{' '}
-            left
-          </Badge>
+          <>
+            <Button size="xs" onClick={() => setDonateModalIsOpen(true)}>
+              Donate
+            </Button>
+            <Badge size="sm">
+              {fundraiser?.raised
+                ? // eslint-disable-next-line no-unsafe-optional-chaining
+                  fundraiser?.goal - fundraiser?.raised
+                : fundraiser?.goal}{' '}
+              left
+            </Badge>
+          </>
         )}
       </Group>
     </>

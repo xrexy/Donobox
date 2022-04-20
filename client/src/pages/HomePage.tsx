@@ -15,8 +15,15 @@ export const HomePage: React.FC<Props> = () => {
     <Shell>
       {user ? (
         <>
-          <PaginatedFundraisers title="Your Fundraisers" fetch={useFetchUserFundraisersPaginated} />
-          <PaginatedFundraisers title="Recent Fundraisers" fetch={useFetchAllFundraisersPaginated} />
+          <PaginatedFundraisers
+            title="Your Fundraisers"
+            fetch={useFetchUserFundraisersPaginated}
+          />
+          <PaginatedFundraisers
+            title="Recent Fundraisers"
+            fetch={useFetchAllFundraisersPaginated}
+            pt="md"
+          />
         </>
       ) : (
         <HeroText />

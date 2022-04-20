@@ -1,4 +1,4 @@
-import { createStyles, Group, Pagination, Stack, Text } from '@mantine/core';
+import { createStyles, Group, GroupProps, Pagination, Stack, Text } from '@mantine/core';
 import { AxiosResponse } from 'axios';
 import React, { useContext, useState } from 'react';
 import { UseQueryResult } from 'react-query';
@@ -35,7 +35,7 @@ interface Props {
   title: string;
 }
 
-export const PaginatedFundraisers: React.FC<Props> = ({ fetch, title }) => {
+export const PaginatedFundraisers: React.FC<Props & GroupProps> = ({ fetch, title, pt }) => {
   const { classes } = useStyles();
   const [paginationPage, setPaginationPage] = useState(1);
   const { accessToken } = useContext(AppContext);
@@ -43,7 +43,7 @@ export const PaginatedFundraisers: React.FC<Props> = ({ fetch, title }) => {
   const { data: paginatedData } = fetch(paginationPage - 1, accessToken);
 
   return (
-    <Group position="center">
+    <Group position="center" pt={pt}>
       <Stack>
         <Group align="baseline" style={{ justifyContent: 'space-between' }}>
           <Text className={classes.fundraisersTitle}>{title}</Text>
