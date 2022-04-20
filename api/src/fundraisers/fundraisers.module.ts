@@ -11,6 +11,7 @@ import { FundraisersController } from './fundraisers.controller';
 @Module({
   providers: [FundraisersService, FundraisersResolver],
   controllers: [FundraisersController],
+  exports: [FundraisersService],
   imports: [
     MongooseModule.forFeature([
       { name: Fundraiser.name, schema: FundraiserSchema },

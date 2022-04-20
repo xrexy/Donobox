@@ -8,6 +8,8 @@ import {
   Text,
   useMantineTheme,
 } from '@mantine/core';
+import { useNotifications } from '@mantine/notifications';
+import { CheckIcon } from '@modulz/radix-icons';
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteFundraiser } from '../../utils/api';
@@ -62,6 +64,7 @@ const DeleteModal: React.FC<ModalProps> = ({
   setIsOpen,
 }) => {
   const theme = useMantineTheme();
+  const notiManager = useNotifications();
 
   return (
     <Modal
@@ -94,7 +97,16 @@ const DeleteModal: React.FC<ModalProps> = ({
             deleteFundraiser({
               accessToken: accessToken || '',
               fundraiserId: fundraiser.fundraiserId,
-            }).finally(() => window.location.reload());
+            })
+              .then(() => {
+                notiManager.showNotification({
+                  message: `${fundraiser.title} deleted successfully!`,
+                  title: 'Deleted!',
+                  color: 'red',
+                  icon: <CheckIcon />,
+                });
+              })
+              .finally(() => window.location.reload());
           }}
         >
           Yes, Delete

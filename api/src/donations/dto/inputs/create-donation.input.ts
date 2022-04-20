@@ -7,7 +7,11 @@ export class CreateDonationInput {
   @Field(() => Number)
   @Type(() => Number)
   @IsNotEmpty()
-  @Min(0)
+  @Min(1)
   @Max(100000)
   amount: number;
+
+  @Field()
+  @IsNotEmpty()
+  fundraiserId: string;
 }

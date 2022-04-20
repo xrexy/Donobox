@@ -59,6 +59,21 @@ export class FundraisersService {
     );
   }
 
+  async addRaised(amount: number, fundraiserId: string) {
+    const fundraiser: Fundraiser = await this.fundraiserModel.findOne({
+      fundraiserId: fundraiserId,
+    });
+
+    return this.fundraiserModel.updateOne(
+      { fundraiserId },
+      {
+        $set: {
+          raised: Math.max(fundraiser.raised + amount, 1),
+        },
+      },
+    );
+  }
+
   async getAllPaginated(page = 0) {
     const results = await this.fundraiserModel.find().sort({ createdOn: -1 });
     const pages = [];

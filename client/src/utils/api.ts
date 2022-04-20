@@ -31,6 +31,21 @@ export const registerFundraiser = (data: {
     }
   );
 
+export const createDonation = (data: {
+  amount: number;
+  fundraiserId: string;
+  accessToken: string;
+}) =>
+  apiClient.post(
+    '/donations/create',
+    { ...data },
+    {
+      headers: {
+        Authorization: `Bearer ${data.accessToken}`,
+      },
+    }
+  );
+
 export const updateFundraiser = (data: {
   content: string;
   title: string;
