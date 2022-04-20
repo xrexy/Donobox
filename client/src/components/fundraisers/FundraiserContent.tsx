@@ -9,7 +9,7 @@ const useStyles = createStyles((theme) => ({
     textAlign: 'center',
     textTransform: 'uppercase',
     fontWeight: 800,
-    fontSize: theme.fontSizes.sm,
+    fontSize: theme.fontSizes.xs,
     color:
       theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 4 : 8],
     letterSpacing: 0.5,
@@ -28,17 +28,16 @@ const useStyles = createStyles((theme) => ({
     borderBottom: `1px solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
     }`,
-    borderRadius: 5,
   },
 }));
 
 export const FundraiserContent: React.FC<{
   fundraiser: Fundraiser;
-}> = ({ fundraiser: { title, content, description } }) => {
+}> = ({ fundraiser: { title, content, description, createdBy } }) => {
   const { classes } = useStyles();
   return (
     <>
-      <Text className={classes.supTitle}>TODO</Text>
+      <Text className={classes.supTitle}>{createdBy}</Text>
 
       <Title className={classes.title} order={2}>
         {title}
