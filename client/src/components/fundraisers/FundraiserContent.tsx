@@ -1,4 +1,11 @@
-import { Container, createStyles, Paper, Text, Title } from '@mantine/core';
+import {
+  Container,
+  createStyles,
+  Paper,
+  ScrollArea,
+  Text,
+  Title,
+} from '@mantine/core';
 import React from 'react';
 
 const useStyles = createStyles((theme) => ({
@@ -49,11 +56,17 @@ export const FundraiserContent: React.FC<{
         </Text>
       </Container>
 
-      <Paper
-        radius="md"
-        className={classes.card}
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
+      <ScrollArea
+        style={{
+          width: '100%',
+        }}
+      >
+        <Paper
+          radius="md"
+          className={classes.card}
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
+      </ScrollArea>
     </>
   );
 };
