@@ -136,7 +136,10 @@ export const GoalStatus: React.FC<Props> = ({ fundraiser, goalCompleted }) => {
 
       <Group position="apart" mt="xs">
         <Text size="sm" color="dimmed">
-          Goal: {fundraiser?.goal} BGN
+          {isComplete
+            ? `Raised: ${fundraiser?.raised}`
+            : `Goal: ${fundraiser?.goal}`}{' '}
+          BGN
         </Text>
         <Text size="sm" color="dimmed">
           {Math.min(100, goalCompleted)}%
