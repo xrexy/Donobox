@@ -151,8 +151,9 @@ const ControlButtons: React.FC<
               title: fundraiser.title,
               content: fundraiser.content,
               fundraiserId: fundraiser.fundraiserId,
+              description: fundraiser.description,
               goal: fundraiser.goal,
-            },
+             },
           })
         }
       >

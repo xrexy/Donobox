@@ -204,10 +204,9 @@ export const ModifyFundraiserPage: React.FC<Props> = () => {
           >
             <RichTextEditor
               controls={[
-                ['bold', 'italic', 'underline', 'link', 'image'],
+                ['bold', 'italic', 'underline', 'link'],
                 ['unorderedList', 'h1', 'h2', 'h3'],
                 ['sup', 'sub'],
-                ['alignLeft', 'alignCenter', 'alignRight'],
               ]}
               onImageUpload={() => Promise.reject()}
               {...form.getInputProps('content')}

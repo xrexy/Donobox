@@ -12,18 +12,18 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
   ) {}
-  async login(data: LoginUserInput): Promise<{ access_token: string }> {
-    const user = await this.usersService.findByLogin(data);
-    const payload = {
-      email: user.email,
-      sub: user.userId,
-    };
-    return {
-      access_token: this.jwtService.sign(payload, {
-        expiresIn: data.rememberMe ? '1w' : '3600s',
-      }),
-    };
-  }
+async login(data: LoginUserInput): Promise<{ access_token: string }> {
+  const user = await this.usersService.findByLogin(data);
+  const payload = {
+    email: user.email,
+    sub: user.userId,
+  };
+  return {
+    access_token: this.jwtService.sign(payload, {
+      expiresIn: data.rememberMe ? '1w' : '3600s',
+    }),
+  };
+}
 
   async register(details: CreateUserInput) {
     try {
