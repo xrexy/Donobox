@@ -67,10 +67,10 @@
     ora "5.4.1"
     rxjs "6.6.7"
 
-"@apollo/client@~3.2.5 || ~3.3.0 || ~3.4.0":
-  version "3.4.17"
-  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.4.17.tgz#4972e19a49809e16d17c5adc67f45623a6dac135"
-  integrity sha512-MDt2rwMX1GqodiVEKJqmDmAz8xr0qJmq5PdWeIt0yDaT4GOkKYWZiWkyfhfv3raTk8PyJvbsNG9q2CqmUrlGfg==
+"@apollo/client@~3.2.5 || ~3.3.0 || ~3.4.0 || ~3.5.0":
+  version "3.5.10"
+  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.5.10.tgz#43463108a6e07ae602cca0afc420805a19339a71"
+  integrity sha512-tL3iSpFe9Oldq7gYikZK1dcYxp1c01nlSwtsMz75382HcI6fvQXyFXUCJTTK3wgO2/ckaBvRGw7VqjFREdVoRw==
   dependencies:
     "@graphql-typed-document-node/core" "^3.0.0"
     "@wry/context" "^0.6.0"
@@ -81,9 +81,9 @@
     optimism "^0.16.1"
     prop-types "^15.7.2"
     symbol-observable "^4.0.0"
-    ts-invariant "^0.9.0"
+    ts-invariant "^0.9.4"
     tslib "^2.3.0"
-    zen-observable-ts "~1.1.0"
+    zen-observable-ts "^1.2.0"
 
 "@apollo/protobufjs@1.2.2":
   version "1.2.2"
@@ -435,6 +435,14 @@
     "@graphql-tools/utils" "^8.6.2"
     tslib "~2.3.0"
 
+"@graphql-tools/merge@8.2.8":
+  version "8.2.8"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/merge/-/merge-8.2.8.tgz#6ed65c29b963b4d76b59a9d329fdf20ecef19a42"
+  integrity sha512-e4kpzgEIlA0sC0NjJlMwUL73Iz/HoP2OgAUReDDsupvWCqW3PMxjNoviS8xmcklVnv1w8Vmr8U2tao+x40ypLA==
+  dependencies:
+    "@graphql-tools/utils" "8.6.7"
+    tslib "~2.3.0"
+
 "@graphql-tools/mock@^8.1.2":
   version "8.5.2"
   resolved "https://registry.yarnpkg.com/@graphql-tools/mock/-/mock-8.5.2.tgz#c76d5fbe8dc87f6983f0e922d9a50f4410994dff"
@@ -445,7 +453,7 @@
     fast-json-stable-stringify "^2.1.0"
     tslib "~2.3.0"
 
-"@graphql-tools/schema@8.3.2", "@graphql-tools/schema@^8.0.0", "@graphql-tools/schema@^8.2.0", "@graphql-tools/schema@^8.3.2":
+"@graphql-tools/schema@8.3.2", "@graphql-tools/schema@^8.0.0", "@graphql-tools/schema@^8.3.2":
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/@graphql-tools/schema/-/schema-8.3.2.tgz#5b949d7a2cc3936f73507d91cc609996f1266d11"
   integrity sha512-77feSmIuHdoxMXRbRyxE8rEziKesd/AcqKV6fmxe7Zt+PgIQITxNDew2XJJg7qFTMNM43W77Ia6njUSBxNOkwg==
@@ -455,10 +463,27 @@
     tslib "~2.3.0"
     value-or-promise "1.0.11"
 
+"@graphql-tools/schema@8.3.8":
+  version "8.3.8"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/schema/-/schema-8.3.8.tgz#68f35d733487732c522a1b47d27faf8809cce95a"
+  integrity sha512-Bba60ali4fLOKJz/Kk39RcBrDUBtu0Wy7pjpIOmFIKQKwUBNNB0eAmfpvrjnFhRAVdO2kOkPpc8DQY+SCG+lWw==
+  dependencies:
+    "@graphql-tools/merge" "8.2.8"
+    "@graphql-tools/utils" "8.6.7"
+    tslib "~2.3.0"
+    value-or-promise "1.0.11"
+
 "@graphql-tools/utils@8.6.2", "@graphql-tools/utils@^8.6.2":
   version "8.6.2"
   resolved "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-8.6.2.tgz#095408135f091aac68fe18a0a21b708e685500da"
   integrity sha512-x1DG0cJgpJtImUlNE780B/dfp8pxvVxOD6UeykFH5rHes26S4kGokbgU8F1IgrJ1vAPm/OVBHtd2kicTsPfwdA==
+  dependencies:
+    tslib "~2.3.0"
+
+"@graphql-tools/utils@8.6.7":
+  version "8.6.7"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-8.6.7.tgz#0e21101233743eb67a5782a5a40919d85ddb1021"
+  integrity sha512-Qi3EN95Rt3hb8CyDKpPKFWOPrnc00P18cpVTXEgtKxetSP39beJBeEEtLB0R53eP/6IolsyTZOTgkET1EaERaw==
   dependencies:
     tslib "~2.3.0"
 
@@ -1240,11 +1265,6 @@
   integrity sha512-T8Yc9wt/5LbJyCaLiHPReJa0kApcIgJ7Bn735GjItUfh08Z1pJvu8QZqb9s+mMvKV6WUQRV7K2R46YbjMXTTJw==
   dependencies:
     "@types/yargs-parser" "*"
-
-"@types/zen-observable@0.8.3":
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.8.3.tgz#781d360c282436494b32fe7d9f7f8e64b3118aa3"
-  integrity sha512-fbF6oTd4sGGy0xjHPKAt+eS2CrxJ3+6gQ3FGcBoIJR2TLAyCkCyI8JqZNy+FeON0AhVgNJoUumVoZQjBFUqHkw==
 
 "@typescript-eslint/eslint-plugin@^5.0.0":
   version "5.13.0"
@@ -3125,15 +3145,15 @@ graphql-tag@2.12.6, graphql-tag@^2.11.0, graphql-tag@^2.12.3:
   dependencies:
     tslib "^2.1.0"
 
-graphql-tools@^8.2.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-8.2.0.tgz#493edc2760469f39d8334c6f20aa75ae91a7ab86"
-  integrity sha512-9axT/0exEzVCk+vMPykOPannlrA4VQNo6nuWgh25IJ5arPf92OKxvjSHAbm7dQIFmcWxE0hVvyD2rWHjDqZCgQ==
+graphql-tools@^8.2.3:
+  version "8.2.6"
+  resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-8.2.6.tgz#5c6592ab3bfb3f96fd8070a500e7342f0ae9b7b1"
+  integrity sha512-nbEbzkD/z8dmPxa+VlmP4+KmNl3wDXjsWEBHo8VZInEsHDk6w8Cm7lfy1lOlNe30ZXi7T4+fvqLIMQ2gSse+1Q==
   dependencies:
-    "@graphql-tools/schema" "^8.2.0"
+    "@graphql-tools/schema" "8.3.8"
     tslib "~2.3.0"
   optionalDependencies:
-    "@apollo/client" "~3.2.5 || ~3.3.0 || ~3.4.0"
+    "@apollo/client" "~3.2.5 || ~3.3.0 || ~3.4.0 || ~3.5.0"
 
 graphql-ws@5.5.5:
   version "5.5.5"
@@ -5524,7 +5544,7 @@ tree-kill@1.2.2:
   resolved "https://registry.yarnpkg.com/tree-kill/-/tree-kill-1.2.2.tgz#4ca09a9092c88b73a7cdc5e8a01b507b0790a0cc"
   integrity sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==
 
-ts-invariant@^0.9.0:
+ts-invariant@^0.9.4:
   version "0.9.4"
   resolved "https://registry.yarnpkg.com/ts-invariant/-/ts-invariant-0.9.4.tgz#42ac6c791aade267dd9dc65276549df5c5d71cac"
   integrity sha512-63jtX/ZSwnUNi/WhXjnK8kz4cHHpYS60AnmA6ixz17l7E12a5puCWFlNpkne5Rl0J8TBPVHpGjsj4fxs8ObVLQ==
@@ -5999,12 +6019,11 @@ yn@3.1.1:
   resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
   integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
 
-zen-observable-ts@~1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/zen-observable-ts/-/zen-observable-ts-1.1.0.tgz#2d1aa9d79b87058e9b75698b92791c1838551f83"
-  integrity sha512-1h4zlLSqI2cRLPJUHJFL8bCWHhkpuXkF+dbGkRaWjgDIG26DmzyshUMrdV/rL3UnR+mhaX4fRq8LPouq0MYYIA==
+zen-observable-ts@^1.2.0:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/zen-observable-ts/-/zen-observable-ts-1.2.3.tgz#c2f5ccebe812faf0cfcde547e6004f65b1a6d769"
+  integrity sha512-hc/TGiPkAWpByykMwDcem3SdUgA4We+0Qb36bItSuJC9xD0XVBZoFHYoadAomDSNf64CG8Ydj0Qb8Od8BUWz5g==
   dependencies:
-    "@types/zen-observable" "0.8.3"
     zen-observable "0.8.15"
 
 zen-observable@0.8.15:
