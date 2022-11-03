@@ -30,7 +30,7 @@
     "@nestjs/mongoose": "^9.0.2",
     "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^8.0.0",
-    "apollo-server-core": "^3.6.3",
+    "apollo-server-core": "^3.11.0",
     "apollo-server-express": "^3.6.3",
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.5.1",
