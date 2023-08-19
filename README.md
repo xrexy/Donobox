@@ -13,9 +13,9 @@ Feel free to fork and use what you need!
 ## Opened Fundraiser
 ![Opened Fundraiser](.github/images/open-fundraiser.png)
 
-# Donating Modal
-![Donating Modal ](.github/images/donating-modal.png)
-<p style="text-align: center; opacity: 0.75">(with automatic currency conversion)</p>
+## Donating Modal
+![Donating Modal](.github/images/donating-modal.png)
+<p>(with automatic currency conversion)</p>
 
-# Donating Modal �
+# Light Theme
 ![Light Theme](.github/images/light-theme.png)
